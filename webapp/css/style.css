@@ -1,0 +1,263 @@
+.container {
+    position: relative;
+    width: 185px;
+    height: 195px;
+    padding-top: 50px;
+    margin: 0 auto;
+    background: rgba(128, 128, 128, 0.99);
+    border-radius: 100%/40px;
+    text-align: center;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  
+  .inner_level {
+    content: '';
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%;
+    height: 0%;
+    z-index: -1;
+    background: rgba(56, 56, 56, 0.8);
+    /* border-radius: -10% -20% 0 0; */
+    border-radius: 100%/0px;
+    /* border-top: 2px solid #000; */
+    animation: flowAnimation 2s infinite linear;
+  }
+  
+  /* circle at top on container */
+  .container:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    z-index: -1;
+    border: 1px solid #000;
+    border-radius: 100%;
+  }
+  .inner_level::after{
+    content: '';
+    position: absolute;
+    top: -12%;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    /* z-index: -1; */
+    /* border: 1px solid #000; */
+    background: rgba(128, 128, 128, 0.99);
+    border-radius: 100%;
+  }
+  
+  .tankFlexContainer{
+    display: flex;
+    justify-content: center;
+  }
+  .box{
+    width: 100%;
+    box-sizing: border-box;
+    display:flex;
+    justify-content: space-around;
+    height: 100%;
+  }
+  
+  .container_text {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 10%);
+    color: #000;
+  }
+  
+  /* for filter Button */
+  .sapUiSizeCompact .sapMBtnInner.sapMBtnText {
+    padding-left: 4.3rem;
+    padding-right: 0.4375rem;
+  }
+  .show_button{
+    margin-left: 5px;
+    margin-top: -10px;
+  }
+  
+  /* click button on tank */
+  .show_button:active{
+    border: transparent !important;
+  }
+  .show_button .sapMBtnText{
+    padding: 10px;
+  }
+  .show_button .sapMBtnInner{
+    background-color: transparent !important;
+    /* background-color: blue; */
+    /* color: transparent !important; */
+    border-color: transparent !important;
+    border-color: 2px solid rgba(128, 128, 128, 0.99);
+    position: absolute;
+    top: 6px;
+    left: -11px;
+    overflow: visible;
+    padding: 119px;
+    margin-left: -86px;
+    margin-top: -48px;
+  }
+  .show_button .sapMBtnInner:focus{
+    border: none !important;
+    outline: none;
+  }
+  
+  /* margin between tanks */
+  .tank_box{
+    margin: 20px;
+  }
+  .filter_btn .sapMBtnContent {
+    padding-right: 50px !important;
+    font-size: 15px;
+  }
+  .tankFlex{
+    overflow-y: scroll;
+  }
+  .filter_btn .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon {
+      color: #4db1ff;
+      background-color: transparent;
+      width: auto;
+  }
+  
+  /* dialog box close button text */
+  .sapUiSizeCompact .sapMBtnContent {
+    padding-right: 50px;
+  }
+  
+  .tank_no{
+    /* margin-left: 25px; */
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    margin: 5px 0px;
+  }
+  .stock_text{
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    margin-top: 3px;
+    color: white;
+    /* border: 1px solid red; */
+  }
+  .dialog_text{
+    margin-left: 20px;
+    margin-top: 7px;
+  }
+  .close_btn{
+    margin-left: 30px !important;
+  }
+  .close_btn .sapMBtnContent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -3px;
+  }
+  .link_text{
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+  
+  /* Define CSS classes for different background colors */
+  .yellow-background {
+    background-color: yellow;
+  }
+  
+  .green-background {
+    background-color: green;
+  }
+  
+  .red-background {
+    background-color: red;
+  }
+  .dropbox_box{
+    margin-left: 15px;
+  }
+  .content_left{
+    margin: 20px;
+  }
+  .edit_icon{
+    color: blue;
+    margin: 6px 0 0 2px;
+    cursor: pointer;
+  }
+  
+  /* tank text */
+  .Tank_text{
+    font-size: 16px;
+    color : white !important;
+    text-shadow: transparent !important;
+  }
+  .Tank_text:hover{
+    text-decoration: none !important;
+    text-shadow: transparent !important;
+    color: white !important;
+  }
+  .Tank_text:focus{
+    background-color: transparent !important;
+    text-decoration: none !important;
+  }
+  
+  .details_tab{
+    height: 300px;
+  }
+  .details_tab_height{
+    height: 22vh;
+  }
+  .details_close_btn{
+    margin-left: 55%;
+  }
+  
+  @keyframes flowAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(1px);
+    }
+    50% {
+      transform: translateY(2px);
+    }
+    75% {
+      transform: translateY(1px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+   .bar1 .sapUiSizeCompact .sapMBar{
+    /* margin-top: 42px !important; */
+    height: 3rem !important;
+   }
+   /* .sapUiSizeCompact .sapMBar {
+    height: 3rem;
+    line-height: 10rem;
+  } */
+  .tank_no{
+    font-size: 16px;
+  }
+  .dialog_tet{
+    color:white;
+    font-size: 16px;
+    margin-top: 18%;
+    font-weight: bold;
+  }
+  .Dip_form{
+    display: flex;
+    justify-content: center;
+  }
+  .dialog_text{
+    margin-left: 20px;
+    margin-top: 7px;
+  }
+  .details_text{
+    margin-left: 5px;
+  }

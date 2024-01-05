@@ -1,0 +1,60 @@
+
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns="sap.m" controllerName="tankreporting.controller.View1" displayBlock="true">
+
+<Page id="_IDGenPage1" title="Tank Reporting" titleAlignment="Center" enableScrolling="false">
+  <Bar id="_IDGenBar1" class="bar1">
+    <contentLeft>
+      <Select id="filterDropdown" change="onFilterChange" class="filter_dropdown dropbox_box" width="200px" >
+        <core:Item id="_IDGenItem1" key="all" text="All Tanks"/>
+        <core:Item id="_IDGenItem2" key="loading" text="Loading"/>
+        <core:Item id="_IDGenItem3" key="idle" text="Idle"/>
+        <core:Item id="_IDGenItem4" key="receiving" text="Receiving"/>
+        <core:Item id="_IDGenItem5" key="maintenance" text="Maintenance"/>
+        <!-- Add more items as needed -->
+      </Select>
+    </contentLeft>
+    <contentLeft>
+      <Select id="filterDropdown2" change="onFilterChange2" class="" width="200px" >
+        <core:Item id="_IDGenItem8" key="all" text="Location"/>
+        <core:Item id="_IDGenItem6" key="all" text="North "/>
+        <core:Item id="_IDGenItem7" key="crude" text="South"/>
+      </Select>
+    </contentLeft>
+    <contentRight>
+   	<SearchField
+			id="searchField"
+			width="100%"
+			placeholder="Search for..."
+			enableSuggestions="true"
+			suggest=".onSuggest"
+      search=".onSearch"
+			suggestionItems="{
+				path: 'tanks>/Tank_MasterSet'
+			}">
+			<SuggestionItem id="_IDGenSuggestionItem1" text="{tanks>Seqnr}" key="{tanks>Seqnr}" />
+		</SearchField>
+
+    </contentRight>
+  </Bar>
+
+  <ScrollContainer id="_IDGenScrollContainer1" height="80vh" horizontal="false" vertical="true">
+   <!-- <FlexBox id="tank_layout" class="tankFlexContainer" direction="Row" wrap="Wrap" height="" items="{path: 'tanks2>/'}"> -->
+   <FlexBox id="tank_layout" class="tankFlexContainer" direction="Row" wrap="Wrap" height="" items="{path: 'tanks>/Tank_MasterSet'}">
+  <VBox id="_IDGenVBox2" class="tank_box">
+    <!-- this vbox is using to create tank shape -->
+    <VBox class="container" id="container">
+      <!-- this vbox is used for liquid level inside tank -->
+      <VBox class="inner_level" id="tank_level" height="50%">
+        <!-- ... other controls specific to the inner level -->
+      </VBox>
+      <Button id="_IDGenButton1" text="Show Info" class="show_button" press="onShowInfoPress"/>
+      <Link id="_IDGenLink1" class="tank_no Tank_text" press="onShowInfoPress" text="Tank No-{tanks>Seqnr}"/>
+      <Link id="_IDGenLink2" class="tank_no Tank_text" press="onShowInfoPress" text="Plant - {tanks>Werks}"/>
+      <Link id="_IDGenLink3" class="tank_no Tank_text" press="onShowInfoPress" text="Storage - {tanks>Lgort}"/>
+    </VBox>
+  </VBox>
+</FlexBox>
+
+  </ScrollContainer>
+</Page>
+</mvc:View>
