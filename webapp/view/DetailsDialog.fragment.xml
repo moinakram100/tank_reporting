@@ -75,11 +75,6 @@
     <Text id="_IDGenText22" class="details_text" text="{tankDetails>/tankData/QuanLvc}" />
 </FlexBox>
 
-<FlexBox id="_IDGenFlexBox4" visible="{= ${tankDetails>/tankData/Etmstm} !== undefined}">
-  <Text id="_IDGenText23" text="Timestamp :" />
-  <Text id="_IDGenText24" class="details_text" text="{tankDetails>/tankData/Etmstm}" />
-</FlexBox>
-
 <FlexBox id="_IDGenFlexBox5" visible="{= ${tankDetails>/tankData/Meins} !== undefined}">
   <Text id="_IDGenText25" text="Base UoM :" />
     <Text id="_IDGenText26" class="details_text" text="{tankDetails>/tankData/Meins}" />
@@ -87,8 +82,6 @@
 
     </VBox>
         </IconTabFilter>    
-
-
         <!-- Enter dip Icontabfilter -->
 			<IconTabFilter id="_IDGenIconTabFilter2"
 				icon="sap-icon://create"
@@ -101,16 +94,16 @@
                      <Title id="_IDGenTitle1" text="Add Dip Type"  level="H2" class="sapUiTinyMargin Dip_form"/>
 
                      <Label id="_IDGenLabel1" text="Dip Type" />
-                     <!-- <Input id="dip_type" placeholder="Enter dip type" /> -->
-                      <Select id="dropbox" change="onDipType" class="" width="100%" selectedKey="{formData>/SocEvent}">
-                        <core:Item id="_IDGenItem1" key="al" text="Refinery Tanks"/>
-                        <core:Item id="_IDGenItem2" key="c" text="c"/>
-                        <core:Item id="_IDGenItem3" key="goods" text="F"/>
-                        <core:Item id="_IDGenItem4" key="sfg" text="SFG"/>
-                      </Select>
+                      <Input id="mater" placeholder="Enter socket volume" value="{formData>/SocEvent}" />
+                      <!-- <Select id="dropbox" change="onDipType" class="" width="100%" selectedKey="{formData>/SocEvent}"> -->
+                       <!-- <items> <core:Item id="_IDGenItem1" key="01" text=""/></items> -->
+                        <!-- <core:Item id="_IDGenItem2" key="CW" text="CW"/> -->
+                        <!-- <core:Item id="_IDGenItem3" key="03" text="03"/>
+                        <core:Item id="_IDGenItem4" key="04" text="04"/> -->
+                      <!-- </Select> -->
 
                      <Label id="_IDGenLabel2" text="Material Volume :" />
-                     <Input id="material_vol" placeholder="Enter dip height" value="{formData>/TotalheightFltp}" />
+                     <Input id="material_vol" placeholder="Enter dip volume" value="{formData>/TotalheightFltp}" />
 
                      <Label id="_IDGenLabel3" text="Material Temperature :" />
                      <Input id="material_temp" placeholder="Enter material temperature" value="{formData>/MatTemp}" />

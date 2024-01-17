@@ -72,7 +72,7 @@
     color: #000;
   }
   
-  /* for filter Button */
+  /* for tank clicked Button */
   .sapUiSizeCompact .sapMBtnInner.sapMBtnText {
     padding-left: 4.3rem;
     padding-right: 0.4375rem;
@@ -119,11 +119,11 @@
   .tankFlex{
     overflow-y: scroll;
   }
-  .filter_btn .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon {
+  /* .filter_btn .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapMIBar .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault, .sapUxAPObjectPageHeaderIdentifierActions .sapMBtn .sapMBtnInner.sapMBtnDefault .sapUiIcon {
       color: #4db1ff;
       background-color: transparent;
       width: auto;
-  }
+  } */
   
   /* dialog box close button text */
   .sapUiSizeCompact .sapMBtnContent {
@@ -185,8 +185,12 @@
   }
   .edit_icon{
     color: blue;
-    margin: 6px 0 0 2px;
+    margin: 7px 0 0 2px;
     cursor: pointer;
+  }
+  .edit_icon:focus{
+    padding: 2px;
+    border-color:#000  !important;
   }
   
   /* tank text */
@@ -260,4 +264,10 @@
   }
   .details_text{
     margin-left: 5px;
+  }
+  .messageStrip{
+    width: 98%;
+    margin-top: 1%;
+    margin-left: 10px;
+    text-align: center;
   }

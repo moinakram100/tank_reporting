@@ -21,6 +21,7 @@
       </Select>
     </contentLeft>
     <contentRight>
+
    	<SearchField
 			id="searchField"
 			width="100%"
@@ -37,6 +38,7 @@
     </contentRight>
   </Bar>
 
+
   <ScrollContainer id="_IDGenScrollContainer1" height="80vh" horizontal="false" vertical="true">
    <!-- <FlexBox id="tank_layout" class="tankFlexContainer" direction="Row" wrap="Wrap" height="" items="{path: 'tanks2>/'}"> -->
    <FlexBox id="tank_layout" class="tankFlexContainer" direction="Row" wrap="Wrap" height="" items="{path: 'tanks>/Tank_MasterSet'}">
@@ -50,7 +52,7 @@
       <Button id="_IDGenButton1" text="Show Info" class="show_button" press="onShowInfoPress"/>
       <Link id="_IDGenLink1" class="tank_no Tank_text" press="onShowInfoPress" text="Tank No-{tanks>Seqnr}"/>
       <Link id="_IDGenLink2" class="tank_no Tank_text" press="onShowInfoPress" text="Plant - {tanks>Werks}"/>
-      <Link id="_IDGenLink3" class="tank_no Tank_text" press="onShowInfoPress" text="Storage - {tanks>Lgort}"/>
+      <!-- <Link id="_IDGenLink3" class="tank_no Tank_text" press="onShowInfoPress" text="Storage - {tanks>Lgort}"/> -->
     </VBox>
   </VBox>
 </FlexBox>

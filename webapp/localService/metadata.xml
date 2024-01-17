@@ -65,6 +65,109 @@
                 <Property Name="Zzlocation" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Objnr" Type="Edm.String" Nullable="false" MaxLength="22" sap:unicode="false" sap:label="Object number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
+            <EntityType Name="IQciPar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Counter"/>
+                </Key>
+                <Property Name="Counter" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Line" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DensType" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Dens. Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ShellTemp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test Temp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ShellTempUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Shell t. unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="UlInInd" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Innage/ullage" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TestTemp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test Temp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TestTempUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Test Temp.Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="MatTemp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Mat.Temperature" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MatTempUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Mat.Temp.Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="BaseDens" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Base density" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="BDensUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="TestDens" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test Density" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TestDensUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="FxDens" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Fixed Density" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FxDensUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="MatPres" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Mat.pressure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MatPresUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Mat.press.unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="TestPresDens" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test pres. den." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TestPresUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Tpres.unit den." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="AtmPres" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Atm.pressure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AtmPresUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Atm. pres. unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="VapPres" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Vapor pressure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="VapPresUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Vap. pres. unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="HydroCorrInd" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Hydro.corr." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AbInd" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Air Buoy. Ind." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AbFac" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Air buoy. fact." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mcf" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="MC factor" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bsw" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="BSW %" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="BswUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="BSW % UNIT" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="ConvGrpl" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Conv. Group" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="QcCoeff" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Conv. Coeff." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="QciManInd" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="man QCI param." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ITankDipExt" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Counter"/>
+                </Key>
+                <Property Name="Counter" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Line" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StgeLoc" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SeqNo" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Seq no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DipDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Dip date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DipTime" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Dip time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tzone" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Time Zone" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SocEvent" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Event key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TotalheightFltp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Height" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TothUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Length UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="WaterheightFltp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Height" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WathUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Length UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="QuanLvc" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Material volume" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TvolUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Volume UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="WatrLvc" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Water volume" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WvolUom" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Volume UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <NavigationProperty Name="CreateBapiAssoNav" Relationship="ZTANK_REPORTING_SRV.CreateBapiAsso" FromRole="FromRole_CreateBapiAsso" ToRole="ToRole_CreateBapiAsso"/>
+            </EntityType>
+            <EntityType Name="CreateDip" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Counter"/>
+                </Key>
+                <Property Name="Counter" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Line" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="CreateDipNav01" Relationship="ZTANK_REPORTING_SRV.CreateDipAssociation" FromRole="FromRole_CreateDipAssociation" ToRole="ToRole_CreateDipAssociation"/>
+                <NavigationProperty Name="CreateDipNav02" Relationship="ZTANK_REPORTING_SRV.CreateDipAssociation2" FromRole="FromRole_CreateDipAssociation2" ToRole="ToRole_CreateDipAssociation2"/>
+            </EntityType>
+            <Association Name="CreateDipAssociation" sap:content-version="1">
+                <End Type="ZTANK_REPORTING_SRV.CreateDip" Multiplicity="1" Role="FromRole_CreateDipAssociation"/>
+                <End Type="ZTANK_REPORTING_SRV.ITankDipExt" Multiplicity="*" Role="ToRole_CreateDipAssociation"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_CreateDipAssociation">
+                        <PropertyRef Name="Counter"/>
+                    </Principal>
+                    <Dependent Role="ToRole_CreateDipAssociation">
+                        <PropertyRef Name="Counter"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="CreateDipAssociation2" sap:content-version="1">
+                <End Type="ZTANK_REPORTING_SRV.CreateDip" Multiplicity="1" Role="FromRole_CreateDipAssociation2"/>
+                <End Type="ZTANK_REPORTING_SRV.IQciPar" Multiplicity="*" Role="ToRole_CreateDipAssociation2"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_CreateDipAssociation2">
+                        <PropertyRef Name="Counter"/>
+                    </Principal>
+                    <Dependent Role="ToRole_CreateDipAssociation2">
+                        <PropertyRef Name="Counter"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="CreateBapiAsso" sap:content-version="1">
+                <End Type="ZTANK_REPORTING_SRV.ITankDipExt" Multiplicity="*" Role="FromRole_CreateBapiAsso"/>
+                <End Type="ZTANK_REPORTING_SRV.IQciPar" Multiplicity="*" Role="ToRole_CreateBapiAsso"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_CreateBapiAsso">
+                        <PropertyRef Name="Counter"/>
+                    </Principal>
+                    <Dependent Role="ToRole_CreateBapiAsso">
+                        <PropertyRef Name="Counter"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
             <EntityContainer Name="ZTANK_REPORTING_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="Tank_MasterSet" EntityType="ZTANK_REPORTING_SRV.Tank_Master" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="Stock_DipSet" EntityType="ZTANK_REPORTING_SRV.Stock_Dip" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
@@ -72,6 +175,21 @@
                 <EntitySet Name="CreateTankDipSet" EntityType="ZTANK_REPORTING_SRV.CreateTankDip" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="Soc_eventSet" EntityType="ZTANK_REPORTING_SRV.Soc_event" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="System_statusSet" EntityType="ZTANK_REPORTING_SRV.System_status" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="IQciPar001Set" EntityType="ZTANK_REPORTING_SRV.IQciPar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ITankDipExt001Set" EntityType="ZTANK_REPORTING_SRV.ITankDipExt" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="CreateDipSet" EntityType="ZTANK_REPORTING_SRV.CreateDip" sap:content-version="1"/>
+                <AssociationSet Name="CreateBapiAssoSet" Association="ZTANK_REPORTING_SRV.CreateBapiAsso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ITankDipExt001Set" Role="FromRole_CreateBapiAsso"/>
+                    <End EntitySet="IQciPar001Set" Role="ToRole_CreateBapiAsso"/>
+                </AssociationSet>
+                <AssociationSet Name="CreateDipAssociation2Set" Association="ZTANK_REPORTING_SRV.CreateDipAssociation2" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CreateDipSet" Role="FromRole_CreateDipAssociation2"/>
+                    <End EntitySet="IQciPar001Set" Role="ToRole_CreateDipAssociation2"/>
+                </AssociationSet>
+                <AssociationSet Name="CreateDipAssociationSet" Association="ZTANK_REPORTING_SRV.CreateDipAssociation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="CreateDipSet" Role="FromRole_CreateDipAssociation"/>
+                    <End EntitySet="ITankDipExt001Set" Role="ToRole_CreateDipAssociation"/>
+                </AssociationSet>
             </EntityContainer>
             <atom:link rel="self" href="https://ikjdcdevpha01.dangote-group.com:44300/sap/opu/odata/sap/ZTANK_REPORTING_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
             <atom:link rel="latest-version" href="https://ikjdcdevpha01.dangote-group.com:44300/sap/opu/odata/sap/ZTANK_REPORTING_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>

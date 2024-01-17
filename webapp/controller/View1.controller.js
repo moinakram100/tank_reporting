@@ -13,8 +13,9 @@ sap.ui.define(
     "sap/ui/model/odata/v2/ODataModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+    "sap/m/MessageStrip",
   ],
-  function ( Controller,Dialog,Button,JSONModel,Filter,Fragment,MessageBox,FilterOperator,ODataModel,MessageToast){
+  function ( Controller,Dialog,Button,JSONModel,Filter,Fragment,FilterOperator,ODataModel,MessageBox,MessageToast,MessageStrip){
     "use strict";
 
     return Controller.extend("tankreporting.controller.View1", {
@@ -22,46 +23,18 @@ sap.ui.define(
       _oDialog:null,
       oFragment:null,
 
-    //   onInit: function () {
-    //     var oModel = this.getOwnerComponent().getModel("tanks");
-    //     if (oModel) {
-    //        var that = this; 
-    //        oModel.read("/Tank_MasterSet", {
-    //           success: function (oData) {
-    //             //  console.log("Data loaded successfully:", oData);
-    //              that._tankData = oData.results;
-    //           },
-    //           error: function (oError) s{
-    //              console.error("Error reading OData service:", oError);
-    //           }
-    //        });
-    //        oModel.read("/Stock_DipSet", {
-    //         success: function(data) {
-    //             that.stockDipData = data.results;
-    //         },
-    //         error: function(error) {
-    //           console.error("Error reading OData service:", error);
-    //         }
-    //     });
-    //        this.getView().setModel(oModel, "tanks");
-    //     } else {
-    //        console.error("Failed to load model 'tanks'.");
-    //     }
-    //  },
-    
-
     onInit: function () {
       var oModel = this.getOwnerComponent().getModel("tanks");
-      // debugger;
 
       var createModel = new JSONModel({
+        Counter:"",
+        SocEvent:"",
         TestTemp : "",
         MatTemp:"",
         TestDens:"",
-        SocEvent:"c",
         TotalheightFltp:""
       })
-      this.getView().setModel(createModel,"formData")
+      this.getView().setModel(createModel,"formData");
   
       if (oModel) {
           var that = this;
@@ -104,7 +77,58 @@ sap.ui.define(
           console.error("Failed to load model 'tanks'.");
       }
   },
-  
+
+  onChange: function (oEvent) {
+    var oSelect = oEvent.getSource();
+    var selectedItem = oSelect.getSelectedItem();
+    var selectedText = selectedItem ? selectedItem.getText() : "";
+
+    // Set the selected item's text as the placeholder
+    oSelect.setPlaceholder(selectedText);
+  },
+
+onSubmitPress: function (oEvent) {
+  let that = this;
+  let CreateDipHeader = this.getView().getModel("formData");
+  let data = CreateDipHeader.getData();
+  var oModel = this.getOwnerComponent().getModel("tanks");
+
+  let oPayload = {
+      Counter: "003",
+      CreateDipNav01: [
+          { 
+            Counter: "003",
+              SocEvent: data.SocEvent,
+              TotalheightFltp: data.TotalheightFltp
+          },
+      ],
+      CreateDipNav02: [
+          {   
+              Counter: "003",
+              TestTemp: data.TestTemp,
+              MatTemp: data.MatTemp,
+              TestDens: data.TestDens,
+          },
+      ],
+  };
+
+  console.log("Payload is " + JSON.stringify(oPayload));
+  oModel.create("/CreateDipSet", oPayload, {
+    success: function (oData,res) {
+        MessageBox.success("Created successfully");
+    },
+    error: function (error) {
+        console.log("Error while creating the data", error);
+
+        if (error.response) {
+            console.error("Response: ", error.response);
+        }
+
+        console.log("Error while creating the data");
+    }
+});
+},
+
      
 
       // dropdown multiple filter code 
@@ -112,22 +136,47 @@ sap.ui.define(
         var sKey = oEvent.getParameter("selectedItem").getKey();
         switch (sKey) {
           case "loading":
-            this.applyFilter(0, 500);
+            this.applyFilter(0o1, 0o10);
             break;
           case "receiving":
-            this.applyFilter(500, 850);
+            this.applyFilter(0o11, 0o20);
             break;
           case "maintenance":
-            // Handle maintenance filter
             break;
             case "all":
-              this.applyFilter(0,1000);
+              this.applyFilter(0o21,0o40);
               break;
           default:
-            this.applyFilter(0, 1000); 
+            this.applyFilter(0o1,0o50); 
             break;
         }
       },    
+
+
+      applyFilter: function (minValue, maxValue) {
+        var oModel = this.getOwnerComponent().getModel();
+
+        if (oModel) {
+          var aOriginalTanks = oModel.getProperty("/filterTanks");
+          console.log("original tank property is:"+aOriginalTanks);
+
+          if (!aOriginalTanks) {
+            aOriginalTanks = oModel.getProperty("/Tank_Master").map(function (tank) {
+              return Object.assign({}, tank);
+            });
+            oModel.setProperty("/originalTanks", aOriginalTanks);
+          }
+          var aFilteredTanks = aOriginalTanks.filter(function (tank) {
+            return (
+              tank.Seqnr >= minValue && tank.Seqnr <= maxValue
+            );
+          });
+          console.log("Filtered Tank Data:", aFilteredTanks);
+          oModel.setProperty("/tanks", aFilteredTanks);
+        } else {
+          console.error("Tank model not found.");
+        }
+      },
     
       
       // bind details of a particular tank that is clicked
@@ -194,11 +243,11 @@ sap.ui.define(
 // },    
 
 openTankDetailsDialog: function(combinedData) {
-  console.log("dialog box data is:" + JSON.stringify(combinedData));
+  // console.log("dialog box data is:" + JSON.stringify(combinedData));
   if (!this._oDialog) {
       this._oDialog = sap.ui.xmlfragment("tankreporting.view.DetailsDialog", this);
       this.getView().addDependent(this._oDialog);
-  }
+  } 
 
   var oDialogModel = new sap.ui.model.json.JSONModel();
   oDialogModel.setData(combinedData);
@@ -211,6 +260,8 @@ onDialogClose: function () {
     this._oDialog = null;
   }
 },
+
+
       // calculate level height
       calculateHeight: function (availableWater) {
         var totalCapacity = 1000;
@@ -247,35 +298,75 @@ onDialogClose: function () {
         }
       },
 
-     onSearch: function (oEvent) {
-         var sTankNumber = oEvent.getParameter("query");
-         if (this._tankData) {
-              var oTank = this._tankData.find(function (tank) {
-              return tank.Seqnr === sTankNumber;
-            });
+  //    onSearch: function (oEvent) {
+  //        var sTankNumber = oEvent.getParameter("query");
+  //        if (this._tankData) {
+  //             var oTank = this._tankData.find(function (tank) {
+  //             return tank.Seqnr === sTankNumber;
+  //           });
+  //           console.log("new tank value is "+oTank);
+
+  //           var selectedTankNo = oTank.Socnr;
+  //           var tankData = this.stockDipData.find(function(item){
+  //             return item.Socnr===selectedTankNo
+  //           })
+  //           if(tankData){
+  //             var combinedData = {
+  //               tankdata :tankData,
+  //               selectedTank: oTank
+  //             };
+  //             this.openTankdetailsDialog(combinedData)
+  //           }
+  //           else{
+  //             var onlyTankData = {
+  //               selectedTank: oTank
+  //             };
+  //             this.openTankdetailsDialog(onlyTankData)
+  //           }
+  //          }
+  //           else {
+  //            MessageBox.error("Tank data is not available. Please try again.");
+  //     }
+  //  },
+
+  onSearch: function (oEvent) {
+    var sTankNumber = oEvent.getParameter("query");
+    if (this._tankData) {
+        var oTank = this._tankData.find(function (tank) {
+            return tank.Seqnr.toLowerCase() === sTankNumber.toLowerCase();
+        });
+
+        if (oTank) {
+            console.log("new tank value is " + JSON.stringify(oTank));
 
             var selectedTankNo = oTank.Socnr;
-            var tankData = this.stockDipData.find(function(item){
-              return item.Socnr===selectedTankNo
-            })
-            if(tankData){
-              var combinedData = {
-                tankdata :tankData,
-                selectedTank: oTank
-              };
-              this.openTankdetailsDialog(combinedData)
+            var tankData = this.stockDipData.find(function (item) {
+                return item.Socnr === selectedTankNo;
+            });
+
+            if (tankData) {
+                var combinedData = {
+                    tankdata: tankData,
+                    selectedTank: oTank
+                };
+                this.openTankdetailsDialog(combinedData);
+            } else {
+                var onlyTankData = {
+                    selectedTank: oTank
+                };
+                this.openTankdetailsDialog(onlyTankData);
             }
-            else{
-              var onlyTankData = {
-                selectedTank: oTank
-              };
-              this.openTankdetailsDialog(onlyTankData)
-            }
-           }
-            else {
-             MessageBox.error("Tank data is not available. Please try again.");
-      }
-   },
+        } else {
+          MessageBox.error(`Tank not found for Seqnr:${sTankNumber}`  );
+        }
+    } else {
+        MessageBox.error("Tank data is not available. Please try again.");
+    }
+    if (!sTankNumber) {
+      this.getView().byId("searchField").setSuggestionItems([]);
+  }
+},
+
 
     openTankdetailsDialog: function(combinedData) {
        console.log("data is:" + JSON.stringify(combinedData));
@@ -290,17 +381,27 @@ onDialogClose: function () {
      },
 
     getSuggestionsFromModel: function (sSearchValue) {
-         var aFilteredSuggestions = this.getView().getModel("tanks").getProperty("/Tank_MasterSet")
-        .filter(function (oItem) {
-            return oItem.Seqnr.toLowerCase().includes(sSearchValue.toLowerCase());
-         });
-         return aFilteredSuggestions.map(function (oItem) {
-             return new sap.ui.core.Item({
-             text: oItem.Seqnr,
-             key: oItem.Seqnr
-         });
-       });
-      },
+      var aSuggestions = [];
+      var oTankModel = this.getView().getModel("tanks");
+  
+      if (oTankModel) {
+          var aTankData = oTankModel.getProperty("/Tank_MasterSet");
+  
+          if (aTankData && Array.isArray(aTankData)) {
+              aSuggestions = aTankData.filter(function (oItem) {
+                  return oItem.Seqnr.toLowerCase().includes(sSearchValue.toLowerCase());
+              });
+          }
+      }
+  
+      return aSuggestions.map(function (oItem) {
+          return new sap.ui.core.Item({
+              text: oItem.Seqnr,
+              key: oItem.Seqnr
+          });
+      });
+  },
+  
 
    // Text percentage calculate code 
       calculatePercentageText: function (availableWater) {
@@ -311,24 +412,8 @@ onDialogClose: function () {
       },
 
 
-      onSubmitPress: function (oEvent) {
-        var fData = this.getView().getModel("formData").getData();
-        if (fData) {
-          console.log("Input Value:", fData); 
-          var odataModel = this.getView().getModel("tanks");
-          odataModel.create("/CreateTankDipSet", fData, {
-              success:  (data, response) =>{ 
-                  console.log("Data successfully created");
-              },
-              error: function (error) {
-                  console.log("Error while creating the data");
-              }   
-            })
-        } else {
-          debugger;
-          console.error("Input control not found");
-        }
-      },
+
+     
 
       onEditPress1: function (oEvent) {
         const controlId = oEvent.mParameters.id;
@@ -336,6 +421,7 @@ onDialogClose: function () {
         oSelect.oParent.mAggregations.items[1].setEditable(true);
       },
 
+      
       onStatusChange: function (oEvent) {
         var oSelect = oEvent.getSource();
         var sSelectedKey = oSelect.getSelectedKey();
