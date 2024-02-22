@@ -20,9 +20,31 @@
         "uri": "/sap/opu/odata/sap/ZTANK_REPORTING_SRV/",
         "type": "OData",
         "settings": {
-          "annotations": [],
+          "annotations": [
+            "mainService_Annotation"
+          ],
           "localUri": "localService/metadata.xml",
           "odataVersion": "2.0"
+        }
+      },
+      "mainService_Annotation": {
+        "uri": "/destinations/RSD/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZTANK_REPORTING_ANNO_MDL',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/mainService_Annotation.xml"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "tank_reporting-display": {
+          "semanticObject": "tank_reporting",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
         }
       }
     }
@@ -75,7 +97,7 @@
         "preload": true,
         "settings": {}
       },
-      "":{
+      "": {
         "type": "sap.ui.model.json.JSONModel",
         "uri": "model/sample.json"
       }
@@ -122,5 +144,9 @@
       "async": true,
       "id": "App"
     }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "tankreporting"
   }
 }
