@@ -14,12 +14,6 @@
       </ComboBox> 
     </contentLeft>
     <contentLeft>
-      <ComboBox id="filterDropdown" change="onStatusFilterChange" placeholder="Status" class="filter_dropdown dropbox_box" 
-        width="150px" items="{tanks>/status}">
-        <core:Item id="dialog_statusItemHeader" key="{tanks>Source1}" text="{tanks>target1}" />
-      </ComboBox>
-    </contentLeft>
-    <contentLeft>
         <Button id="filter_btn" text="Go" press="onFilterGoPressed" type="Ghost"></Button>
         <Button id="refresh_filter_btn" icon="sap-icon://refresh" press="onFilterRefreshPressed" type="Ghost"></Button>
     </contentLeft>
@@ -44,9 +38,6 @@
       <VBox id="_IDGenVBox2" class="tank_box">
          <!-- this vbox is using to create tank shape -->
         <VBox class="container" id="container">
-           <!-- this vbox is used for liquid level inside tank -->
-             <!-- <VBox class="inner_level" id="tank_level"> -->
-            <!-- <VBox id="tank_level" height="{ path: 'tanks>/QuanSku', formatter: '.calculatePercentage' }"> -->
            <VBox id="tank_level" height="{path: 'tanks>QuanSku', formatter: '.formatHeight', parts: ['tanks>ADQNTP', 'tanks>Kapaz'] }">
 
            <!-- ... other controls specific to the inner level -->
@@ -57,10 +48,6 @@
          <Button id="_IDGenButton1" text="" class="show_button" press="onShowInfoPress" tooltip="clicked on tank to know more details"/>
               
          <Link id="_IDGenLink1" class="tank_no Tank_text" press="onShowInfoPress" text="{tanks>Lgort}"/>
-         <!-- <Link id="_IDGenLink2" class="tank_no tank_text2 sapUiLargeMarginTop" press="onShowInfoPress" text="Quantity-{tanks>QuanSku}"/> -->
-         <!-- <Link id="_IDGenLink3" class="tank_no tank_text2" press="onShowInfoPress" text="{path: 'tanks>Matnr', formatter: 'formatter.classText'}"/> -->
-         <!-- <Link id="_IDGenLink3" class="tank_no tank_text2" press="onShowInfoPress" text="{tanks>QuanSku}"/> -->
-         <!-- <Link id="_IDGenLink4" class="tank_no tank_text2" press="onShowInfoPress" text="Density-"/> -->
         </VBox>
        <VBox id="text_data2" class="text_tank">
         <HBox id="qty_text" class="qty_text">

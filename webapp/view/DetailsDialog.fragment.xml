@@ -13,8 +13,8 @@
     class="details_tab"
     afterClose="onDialogClose">
     <VBox id="_IDGenVBox12" class="tank_box">
-        <VBox id="container" class="container details_container">
-          <VBox id="tank_level" class="inner_level" height="{path: 'tankDetails>/tankData/QuanLvc', formatter: '.formatHeight',parts: ['tankDetails>/selectedTank/ADQNTP', 'tankDetails>/selectedTank/Kapaz']}"></VBox>
+        <VBox id="details_container" class="container details_container">
+          <VBox id="details_tank_level" class="inner_level" height="{path: 'tankDetails>/tankData/QuanLvc', formatter: '.formatHeight',parts: ['tankDetails>/selectedTank/ADQNTP', 'tankDetails>/selectedTank/Kapaz']}"></VBox>
          <!-- <Text id="_IDGenText8" class="dialog_tet" text="Tank No : {tankDetails>/selectedTank/Seqnr}" /> -->
         </VBox>
     </VBox>
@@ -108,7 +108,7 @@
                      <Label id="_IDGenLabel5" text="Test Temperature :" />
                      <Input id="test_temp" placeholder="" value="{formData>/TestTemp}"/>
 
-                    <Button id="_IDGenButton2" text="Confirm" press="onSubmitPress" class="sapUiTinyMarginTop"/>
+                    <Button id="_IDGenButton2" type="Success" text="Confirm" press="onSubmitPress" class="sapUiTinyMarginTop"/>
                 </VBox>
               </f:content>
             </f:SimpleForm> 
@@ -161,7 +161,7 @@
               <Label id="sedimentLabel" text="Sediment and Water :" visible="{= ${tankDetails>/selectedTank/Matnr} === '84001'}"/>
               <Input id="sediment_water" placeholder="" value="" visible="{= ${tankDetails>/selectedTank/Matnr} === '84001'}"/>
 
-              <Button id="_IDGenButton3" text="Submit" press="" class="sapUiTinyMarginTop"/>
+              <Button id="_IDGenButton3" text="Submit" press="onUpdateDefault" class="sapUiTinyMarginTop"/>
 
           </VBox>
           </f:content>
@@ -169,7 +169,7 @@
       </IconTabFilter> 
 		</items>
 	</IconTabBar>
-    <Button id="_IDGenButton1" text="Close" class="details_close_btn" press=".onDialogClose"/>
+    <Button id="_IDGenButton1" text="Close" type="Reject" class="details_close_btn" press=".onDialogClose"/>
 
   </Dialog>
 </core:FragmentDefinition>
