@@ -8,7 +8,7 @@
     type="Standard"
     id="detailsDialog"
     title="Tank Details"
-    contentWidth="auto"
+    contentWidth="400px"
     contentHeight="auto"
     class="details_tab"
     afterClose="onDialogClose">
@@ -31,24 +31,11 @@
 				iconColor="Positive"
 				text="Details"
 				key="Ok">
-            <!-- <VBox id="_IDGenVBox1">
-                <Text id="_IDGenText1" text="Org No  : {tankDetails>/selectedTank/Socnr}" />
-                <Text id="_IDGenText12" text="Tank No  : {tankDetails>/selectedTank/Seqnr}" />
-                <Text id="_IDGenText2" text="Height  : {tankDetails>/tankData/Totalheight}" />
-                <Text id="_IDGenText3" text="Temperature (Tothuom)  : {tankDetails>/tankData/Tothuom}" />
-                <Text id="_IDGenText4" text="Quantity (QuanSku)  : {tankDetails>/tankData/QuanSku}" />
-                <Text id="_IDGenText5" text="Timestamp  : {tankDetails>/tankData/Etmstm}" />
-                <Text id="_IDGenText19" text="Base UoM  : {tankDetails>/tankData/Meins}" />
-                <Text id="_IDGenText9" text="Dip GUID  : {tankDetails>/tankData/DipGuid}" />
-                <Text id="_IDGenText10" text="Storage  : {tankDetails>/selectedTank/Lgort}" />
-                <Text id="_IDGenText11" text="Plant  : {tankDetails>/selectedTank/Werks}" />
-            </VBox> -->
-        <!-- <Panel id="form">         -->
            <VBox id="_IDGenVBox1" class="tank_info_box sapUiResponsiveMargin">
   
              <FlexBox id="_IDGenFlexBox27" >
                <Text id="_IDGenText29" text="Tank No :" />
-               <Text id="_IDGenText30" class="details_text" text="{tankDetails>/selectedTank/Socnr}" />
+               <Text id="_IDGenText30" class="details_text" text="{tankDetails>/selectedTank/Seqnr}" />
              </FlexBox>
              <FlexBox id="_IDGenFlexBox9">
                <Text id="_IDGenText13" text="Storage :" />
@@ -59,16 +46,20 @@
                <Text id="_IDGenText16" class="details_text" text="{tankDetails>/selectedTank/Werks}" />
              </FlexBox>
              <FlexBox id="_IDGenFlexBox1" visible="{= ${tankDetails>/tankData/Totalheight} !== undefined}">
-               <Text id="_IDGenText17" text="Height :" />
-               <Text id="_IDGenText18" class="details_text" text="{tankDetails>/tankData/Totalheight}" />
+               <Text id="_IDGenText17" text="Quantity :" />
+               <Text id="_IDGenText18" class="details_text" text="{tankDetails>/selectedTank/ADQNTP} L"/>
              </FlexBox>
              <FlexBox id="_IDGenFlexBox2" visible="{= ${tankDetails>/tankData/Tothuom} !== undefined}">
                <Text id="_IDGenText19" text="Temperature :" />
-               <Text id="_IDGenText20" class="details_text" text="{tankDetails>/tankData/Tothuom}" />
+               <Text id="_IDGenText20" class="details_text" text="{tankDetails>/selectedTank/UnitChar}" />
              </FlexBox>
+             <!-- <FlexBox id="_IDGenFlexBox6" visible="{= ${tankDetails>/tankData/Kapaz} !== undefined}">
+               <Text id="_IDGenText31" text="Temperature :" />
+               <Text id="_IDGenText32" class="details_text" text="{tankDetails>/selectedTank/Kapaz}" />
+             </FlexBox> -->
              <FlexBox id="_IDGenFlexBox3" visible="{= ${tankDetails>/selectedTank/QuanSku} !== undefined}">
                <Text id="_IDGenText21" text="Max Quantity :" />
-               <Text id="_IDGenText22" class="details_text" text="{tankDetails>/selectedTank/QuanSku}" />
+               <Text id="_IDGenText22" class="details_text" text="{tankDetails>/selectedTank/Kapaz} L" />
              </FlexBox>
              <FlexBox id="_IDGenFlexBox4" visible="{= ${tankDetails>/selectedTank/QuanSku} !== undefined}">
                <Text id="_IDGenText24" text="Material No :" />
@@ -90,25 +81,25 @@
                 <VBox id="dip_form" visible="true">
                      <Title id="_IDGenTitle1" text="Add Dip Type"  level="H2" class="sapUiTinyMargin Dip_form"/>
                       <Label id="_IDGenLabel0" text="Date" /> 
-                       <DateTimePicker id="DTP1" placeholder="Select Date and Time"  change="selectDate" /> 
+                       <DateTimePicker id="DTP1" placeholder="Select Date and Time"  change="selectDate" maxDate="{path: 'selectDate>/currentDate'}"/> 
                      <Label id="_IDGenLabel1" text="Dip Type" />
                        <ComboBox id="selectBox" change="onDipType" items="{socEvent>/}" width="100%" >
                           <!-- <core:Item id="dialog_item" key="{socEvent>Ddtext}" text="{socEvent>DomvalueL}" /> -->
                           <core:Item id="dialog_item" key="{socEvent>DomvalueL}" text="{socEvent>Ddtext}" />
                         </ComboBox>
                      <Label id="_IDGenLabel2" text="Material Volume :" />
-                     <Input id="material_vol" placeholder="" value="{formData>/TotalheightFltp}" />
+                     <Input id="material_vol" placeholder="" liveChange="onLiveChangeOnVolume" value="{formData>/TotalheightFltp}" />
 
                      <Label id="_IDGenLabel3" text="Material Temperature :" />
-                     <Input id="material_temp" placeholder="" value="{formData>/MatTemp}" />
+                     <Input id="material_temp" placeholder="" liveChange="onLiveChange" value="{formData>/MatTemp}" />
 
                      <Label id="_IDGenLabel4" text="Test Density:" />
-                     <Input id="test_density" placeholder="" value="{formData>/TestDens}"/>
+                     <Input id="test_density" placeholder="" liveChange="onLiveChange" value="{formData>/TestDens}"/>
 
                      <Label id="_IDGenLabel5" text="Test Temperature :" />
-                     <Input id="test_temp" placeholder="" value="{formData>/TestTemp}"/>
+                     <Input id="test_temp" placeholder="" liveChange="onLiveChange" value="{formData>/TestTemp}"/>
 
-                    <Button id="_IDGenButton2" type="Success" text="Confirm" press="onSubmitPress" class="sapUiTinyMarginTop"/>
+                    <Button id="_IDGenButton2" type="Accept" text="Confirm" press="onSubmitPress" class="sapUiTinyMarginTop"/>
                 </VBox>
               </f:content>
             </f:SimpleForm> 
@@ -125,17 +116,17 @@
                   <HBox id="status_box" justifyContent="SpaceAround" width="320px" class="exam_box"> 
                         <Text id="_IDGenText" class="dialog_text" text="Status : " />
                         <ComboBox id="status_selectBox" change="onStatusChange" width="220px" class="" editable="true" items="{status>/}">
-                          <core:Item id="dialog_statusItem" key="{status>Source1}" text="{status>target1}" />
+                          <core:Item id="dialog_statusItem" key="{status>Source1}" text="{status>Target1}" />
                         </ComboBox>
                        <!-- <core:Icon id="_IDGenIcon1" src="sap-icon://edit" press=".onEditPress1" class="edit_icon"/>      -->
                   </HBox>
-                  <HBox id="location_box" justifyContent="SpaceAround" width="315px" >
+                  <!-- <HBox id="location_box" justifyContent="SpaceAround" width="315px" >
                         <Text id="_IDGenText1" class="dialog_text" text="Location : "/>
                         <ComboBox id="location_selectBox" width="220px" change="onLocationChange" items="{location>/}">
                             <core:Item id="dialog_locItem" key="{location>Source1}" text="{location>Target1}" />
                          </ComboBox>
-                  </HBox>
-                  <Button id="update_status" text="Update" width="auto" class="update_button" press="updateStatusAndLoaction" />
+                  </HBox> -->
+                  <Button id="update_status" type="Accept" text="Update" width="auto" class="update_button" press="updateStatus" />
             <!-- </Panel> -->
       </IconTabFilter> 
 
@@ -150,18 +141,18 @@
               <Title id="_IDGenTitle2" text="Update Default"  level="H2" class="sapUiTinyMargin Dip_form"/>
 
               <Label id="OtempLabel" text="Temperature :" />
-              <Input id="observed_temp" placeholder="" value="" />
+              <Input id="observed_temp" placeholder="" value="{03_default>/temp}" />
 
               <Label id="OdensityLabel" text="Density :" />
-              <Input id="observed_density" placeholder="" value="" />
+              <Input id="observed_density" placeholder="" value="{03_default>/density}" />
 
               <Label id="testTempLabel" text="Test Temp:" />
-              <Input id="test_temperature" placeholder="" value=""/> 
+              <Input id="test_temperature" placeholder="" value="{03_default>/test_temp}"/> 
 
               <Label id="sedimentLabel" text="Sediment and Water :" visible="{= ${tankDetails>/selectedTank/Matnr} === '84001'}"/>
-              <Input id="sediment_water" placeholder="" value="" visible="{= ${tankDetails>/selectedTank/Matnr} === '84001'}"/>
+              <Input id="sediment_water" placeholder="" value="{03_default>/water_sediment}" visible="{= ${tankDetails>/selectedTank/Matnr} === '84001'}"/>
 
-              <Button id="_IDGenButton3" text="Submit" press="onUpdateDefault" class="sapUiTinyMarginTop"/>
+              <Button id="_IDGenButton3" type="Accept" text="Submit" press="onUpdateDefault" class="sapUiTinyMarginTop"/>
 
           </VBox>
           </f:content>
@@ -170,6 +161,5 @@
 		</items>
 	</IconTabBar>
     <Button id="_IDGenButton1" text="Close" type="Reject" class="details_close_btn" press=".onDialogClose"/>
-
   </Dialog>
 </core:FragmentDefinition>

@@ -16,7 +16,7 @@ framework:
     - name: sap.ui.generic.app
     - name: sap.ui.table
     - name: sap.ushell
-    - name: themelib_sap_belize
+    - name: themelib_sap_horizon
 server:
   customMiddleware:
     - name: fiori-tools-appreload
@@ -48,4 +48,4 @@ server:
       afterMiddleware: fiori-tools-appreload
       configuration:
         component: tankreporting
-        ui5Theme: sap_belize
+        ui5Theme: sap_horizon

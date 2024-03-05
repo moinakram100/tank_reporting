@@ -38,7 +38,8 @@
     height: 25%;
     z-index: -1;
     /* border: 2px solid #abbeca; */
-    border: 1px solid #69767c;
+    /* border: 1px solid #69767c; */
+    border : 1px solid #CCD3CA;
     filter: brightness(0.5);
     border-radius: 100%;
     /* margin-left: 1px; */
@@ -117,6 +118,7 @@
     margin-top: -47px;
     padding: 76px;
     margin-left: -61px;
+    cursor: pointer;
   }
 
   @keyframes filAnimation {
@@ -128,7 +130,7 @@
     }
   }
 
-.green {
+.pms {
   content: '';
   position: absolute;
   bottom: 0; 
@@ -139,10 +141,10 @@
   border-radius: 100%/0px;
   /* animation: flowAnimation 2s infinite linear; */
   animation: fillAnimation 2s forwards;
-      background-color: #007f7e !important; 
-    border: #007f7e;
+  background-color: #007f7e !important; 
+  border: #007f7e;
 }
-.green::after{
+.pms::after{
   content: '';
   position: absolute;
   top: -11%;
@@ -153,7 +155,7 @@
   background: #008a89;
   border-radius: 100%;
 }
-.red {
+.diesel {
   content: '';
   position: absolute;
   bottom: 0; 
@@ -162,13 +164,11 @@
   height: 0%;
   z-index: -1;
   border-radius: 100%/0px;
-  /* animation: fillAnimation 2s forwards; */
+  animation: fillAnimation 2s forwards;
     background: #b38e40;
     border: #007f7e;
-
-
 }
-.red::after{
+.diesel::after{
   content: '';
   position: absolute;
   top: -11%;
@@ -178,7 +178,7 @@
   background: #c09844;
   border-radius: 100%;
 }
-.orange{
+.crude{
   content: '';
   position: absolute;
   bottom: 0; 
@@ -191,7 +191,7 @@
   /* background: rgba(128, 128, 128, 0.99); */
     background: #12596f;
 }
-.orange::after{
+.crude::after{
   content: '';
   position: absolute;
   top: -11%;
@@ -318,24 +318,7 @@ defaults{
     padding: 2px;
     margin-right: 10px;
   }
-  
-  /* @keyframes flowAnimation {
-    0% {
-      transform: translateY(0);
-    }
-    25% {
-      transform: translateY(1px);
-    }
-    50% {
-      transform: translateY(2px);
-    }
-    75% {
-      transform: translateY(1px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  } */
+ 
   .details_container{
      width:175px;
      height:200px;
@@ -344,7 +327,7 @@ defaults{
     box-sizing: border-box;
     margin-top: -2px;
     width:101.5%;
-    border: 3px solid #abbeca;
+    border: 3px solid #CCD3CA;
     margin-left: -1px;
   }
 

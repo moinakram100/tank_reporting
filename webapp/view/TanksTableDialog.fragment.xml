@@ -1,0 +1,65 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+
+    <TableSelectDialog
+        id="myDialog"
+        noDataText="No Products Found"
+        title="Select Product ({path: 'tanks>/tankData', formatter: '.formatItemCount'})"
+        search=".handleSearch"
+        confirm=".handleClose"
+        cancel=".handleClose"
+        liveChange=".handleLiveChange"
+        selectionChange="onSelectRow"
+        items="{
+            path: 'tanks>/tankData',
+            sorter: {
+                path: 'Matnr',
+                descending: false
+            }
+        }">
+        <ColumnListItem id="_IDGenColumnListItem1" vAlign="Middle">
+            <cells>
+                <ObjectIdentifier id="_IDGenObjectIdentifier1" title="{tanks>Seqnr}" text="{tanks>Lgort}" />
+                <Text id="_IDGenText2" text="{tanks>Matnr}" />
+                <Text id="_IDGenText11" text="{tanks>Werks}" />
+                <ObjectNumber id="_IDGenObjectNumber1" number="{tanks>ADQNTP}" unit="L" />
+                <Text id="_IDGenObjectNumber2" text="{tanks>Kapaz} L" />
+                <Text id="_IDGenText7" text="{tanks>UnitChar}" />
+            </cells>
+        </ColumnListItem>
+        <columns>
+            <Column id="_IDGenColumn1" width="12em">
+                <header>
+                    <Text id="_IDGenText3" text="Seq No." />
+                </header>
+            </Column>
+            <Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true">
+                <header>
+                    <Text id="_IDGenText4" text="Material" />
+                </header>
+            </Column>
+            <Column id="_IDGenColumn3"
+                minScreenWidth="Desktop"
+                demandPopin="true"
+                hAlign="End">
+                <header>
+                    <Text id="_IDGenText5" text="Plant" />
+                </header>
+            </Column>
+            <Column id="_IDGenColumn5" hAlign="End">
+                <header>
+                    <Text id="_IDGenText8" text="Quantity" />
+                </header>
+            </Column>
+            <Column id="_IDGenColumn6" hAlign="End">
+                <header>
+                    <Text id="_IDGenText9" text="Max Quantity" />
+                </header>
+            </Column>
+            <Column id="_IDGenColumn7" hAlign="End">
+                <header>
+                    <Text id="_IDGenText10" text="Temperature" />
+                </header>
+            </Column>
+        </columns>
+    </TableSelectDialog>
+</core:FragmentDefinition>

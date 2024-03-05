@@ -9,11 +9,12 @@ sap.ui.define(
     "sap/ui/model/FilterOperator",
     "sap/ui/model/odata/v2/ODataModel",
     "sap/m/MessageBox",
-    "sap/m/MessageToast",
     "sap/m/Popover",
-    "sap/m/Text"
+    "sap/m/Text",
+    'sap/m/MessageToast',
+    "sap/ui/core/syncStyleClass"
   ],
-  function (Controller, Dialog, Button, JSONModel, Filter, Fragment, FilterOperator, ODataModel, MessageBox, MessageToast, Popover, Text) {
+  function (Controller, Dialog, Button, JSONModel, Filter, Fragment, FilterOperator, ODataModel, MessageBox, Popover, Text,MessageToast,syncStyleClass) {
     "use strict";
     var updateStatus, updateLocation, selectedMaterial, latestTankDataMap = {};
 
@@ -21,6 +22,7 @@ sap.ui.define(
       _oTankInfoDialog: null,
       _oDialog: null,
       oFragment: null,
+      _oTankTableDialog: null,
 
       onInit: function () {
         var oModel = this.getOwnerComponent().getModel("tanks");
@@ -31,7 +33,8 @@ sap.ui.define(
         // oButton.addEventDelegate({
         //   onmouseover: this.onButtonHover.bind(this)
         // });
-
+ 
+        // creating model for enter dip form's payload 
         var createModel = new JSONModel({
           Counter: "",
           DipDate: "",
@@ -47,6 +50,31 @@ sap.ui.define(
           TotalheightFltp: ""
         })
         this.getView().setModel(createModel, "formData");
+
+        // creating model for tank status 
+        var statusModel = new JSONModel({
+          status : "",
+          socnr : ""
+        })
+        this.getView().setModel(statusModel, "statusData");
+
+        // creating table for tank 03Default
+        var defaultModel = new JSONModel({
+          temp : "",
+          density :"",
+          test_temp : "",
+          water_sediment : ""
+        })
+        this.getView().setModel(defaultModel,"03_default");
+
+        // creating table for select current and past date
+        var dateModel = new JSONModel();
+        var currentDate = new Date();
+         dateModel.setData({
+          currentDate: currentDate,
+          currentTime: currentDate.toLocaleTimeString()
+         });
+         this.getView().setModel(dateModel, "selectDate");
 
         if (oModel) {
           var that = this;
@@ -74,7 +102,7 @@ sap.ui.define(
             oModel.read("/Stock_DipSet", {
               success: function (oData) {
                 if (Array.isArray(oData.results)) {
-                  // console.table(oData.results)
+                  // console.table("stock_dip Data: ",oData.results)
                 }
                 that.stockDipData = oData.results;
                 resolve();
@@ -105,7 +133,7 @@ sap.ui.define(
           var SystemStatusPromise = new Promise(function (resolve, reject) {
             oModel.read("/ZTank_SValueHelp", {
               success: function (data) {
-                //  console.log("systemStatus Data loaded successfully:", data);
+                 console.log("systemStatus Data loaded successfully:", data);
                 that.systemStatus = data.results;
                 resolve();
               },
@@ -118,11 +146,12 @@ sap.ui.define(
 
           var tankProductPromise = new Promise(function (resolve, reject) {
             oModel.read("/ZTANK_PRODUCT_GROUPS", {
+              // for creating unique product
               success: function (data) {
                 var uniqueProductGroups = [];
                 var productMap = {};
-                console.log("product result read", data.results);
                 // Iterate through the results to find unique product groups
+                console.log("product data is",data.results);
                 data.results.forEach(function (item) {
                   var productGroup = item.ProductGroup;
                   var material = item.MaterialCode;
@@ -158,9 +187,9 @@ sap.ui.define(
           var zTankMasterPromise = new Promise(function (resolve, reject) {
             oModel.read("/ZMaster_tank", {
               success: function (data) {
-                console.log("master data loaded:", data);
                 if (Array.isArray(data.results)) {
                   console.table(data.results)
+                  console.log(data.results);
                 }
                 that.masterSetData = data.results
                 resolve();
@@ -188,9 +217,7 @@ sap.ui.define(
           });
 
           Promise.all([tankPromise, stockDipPromise, SocEventPromise, SystemStatusPromise, locationPromise, zTankMasterPromise, tankProductPromise]).then(function () {
-
             var tankData = that.masterSetData;
-            //  var latestTankDataMap = {};
             var totalQuantity = 0;
 
             tankData.forEach(function (tank) {
@@ -201,7 +228,7 @@ sap.ui.define(
               }
             });
             Object.values(latestTankDataMap).forEach(function (tank) {
-              var quantity = parseFloat(tank.QuanSku);
+              var quantity = parseFloat(tank.ADQNTP);
               if (!isNaN(quantity)) {
                 totalQuantity += quantity;
               } else {
@@ -212,6 +239,7 @@ sap.ui.define(
             totalQuantity = parseFloat(totalQuantity.toFixed(2)) + "L";
             var fullTankModel = new JSONModel({
               tankData: Object.values(latestTankDataMap),
+              // tankData: that._tankData,
               status: that.systemStatus,
               product: that.tankProduct,
               totalQuantity: totalQuantity
@@ -221,10 +249,10 @@ sap.ui.define(
             that.onDataLoaded();
             that.onPercentage()
           }).catch(function (error) {
-            console.error("Failed to load data:", error);
+            // console.error("Failed to load data:", error);
           });
         } else {
-          console.error("Failed to load model 'tanks'.");
+          MessageBox.error("Failed to load data");
         }
       },
 
@@ -246,7 +274,6 @@ sap.ui.define(
           // Concatenate formatted date with "T00:00:00"
           var combinedDateTimeString = formattedDate + "T00:00:00";
           var combinedTimeString = formattedTime;
-          console.log("formattedTime", combinedTimeString);
 
           var formDataModel = this.getView().getModel("formData");
           formDataModel.setProperty("/DipDate", combinedDateTimeString);
@@ -266,7 +293,6 @@ sap.ui.define(
 
         // Create the ISO 8601 duration string
         const isoDuration = `PT${hours}H${minutes}M${seconds}S`;
-        console.log("Time is ", isoDuration);
         return isoDuration;
       },
 
@@ -277,7 +303,6 @@ sap.ui.define(
         // debugger;
         var selectedKey = oEvent.getSource().getSelectedKey();
         var selectedText = oEvent.getSource().getSelectedItem().getText();
-        console.log("selected item is" + selectedText);
         var labelMap = {
           "Opening dip Height entry": "Material Height:",
           "Closing dip Height entry": "Material Height:",
@@ -327,8 +352,7 @@ sap.ui.define(
         var aFilteredProduct = oMaterialsModel.getProperty("/product").filter(function (product) {
           return product.ProductGroup === selectedMaterial;
         });
-        //  debugger;
-        // console.log("sdfghj",aFilteredProduct);
+       
         var extractedProperties = aFilteredProduct.map(function (product) {
           return {
             Material: product.MaterialCode,
@@ -365,11 +389,13 @@ sap.ui.define(
       onFilterRefreshPressed: function () {
         this.showAllTanks();
       },
+     
 
 
 
-      // Go filter Button code 
+      // write code for Go filter Button code 
       onFilterGoPressed: function () {
+        
         var productItem = this.byId("filterDropdown2").getValue();
         var materialItem = this.byId("filterDropdown3").getValue();
 
@@ -395,11 +421,11 @@ sap.ui.define(
             });
             return;
           }
+          
 
           var totalQuantity = filterTankMatnr.reduce(function (total, tank) {
-            return total + parseFloat(tank.QuanSku || 0);
+            return total + parseFloat(tank.ADQNTP || 0);
           }, 0);
-          console.log("quantity is ", totalQuantity);
 
           var oFlexBox = this.getView().byId("tank_layout");
           var oModel = new JSONModel({
@@ -409,38 +435,16 @@ sap.ui.define(
           oFlexBox.setModel(oModel, "tanks");
 
           var totalQuantityText = this.byId("total_calculated");
-          totalQuantityText.setText(totalQuantity.toString());
+          totalQuantityText.setText(`${totalQuantity.toString()} L`);
+          this.onDataLoaded()
         }
-      },
-
-      // showAllTanks: function () {
-      //   var latestTankDataArray = Object.values(latestTankDataMap);
-      //   var totalQuantity = latestTankDataArray.reduce(function (total, tank) {
-      //     return total + parseFloat(tank.QuanSku || 0);
-      //   }, 0);
-
-      //   var oFlexBox = this.getView().byId("tank_layout");
-      //   var oModel = new JSONModel({
-      //     tankData: latestTankDataArray,
-      //     totalQuantity: totalQuantity
-      //   });
-      //   oFlexBox.setModel(oModel, "tanks");
-
-      //   var totalQuantityText = this.byId("total_calculated");
-      //   totalQuantityText.setText(totalQuantity.toString());
-
-      //   var filterDropdown1 = this.byId("filterDropdown2");
-      //   var filterDropdown2 = this.byId("filterDropdown3");
-      //   if (filterDropdown1 || filterDropdown2) {
-      //     filterDropdown1.setValue("");
-      //     filterDropdown2.setValue("");
-      //   }
-      // },
-
+      }, 
+      
+    // write code for showing all tanks
       showAllTanks: function () {
         var latestTankDataArray = Object.values(latestTankDataMap);
         var totalQuantity = latestTankDataArray.reduce(function (total, tank) {
-            return total + parseFloat(tank.QuanSku || 0);
+            return total + parseFloat(tank.ADQNTP || 0);
         }, 0);
     
         var oFlexBox = this.getView().byId("tank_layout");
@@ -451,7 +455,7 @@ sap.ui.define(
         oFlexBox.setModel(oModel, "tanks");
     
         var totalQuantityText = this.byId("total_calculated");
-        totalQuantityText.setText(totalQuantity.toString());
+        totalQuantityText.setText(`${totalQuantity.toString()} L`);
     
         var filterDropdown1 = this.byId("filterDropdown2");
         var filterDropdown2 = this.byId("filterDropdown3");
@@ -460,42 +464,69 @@ sap.ui.define(
             filterDropdown2.setValue("");
         }
         this.onDataLoaded()
-    
-        // latestTankDataArray.forEach(function (tank) {
-        //   debugger;
-        //     var matnr = tank.Matnr;
-        //     var tankId = "tank_" + tank.Id; // Assuming each tank has an Id
-        //     var oTankLevel = sap.ui.getCore().byId(tankId);
-        //     if (oTankLevel) {
-        //         switch (matnr) {
-        //             case "8000":
-        //                 oTankLevel.addStyleClass("green");
-        //                 break;
-        //             case "8100":
-        //                 oTankLevel.addStyleClass("red");
-        //                 break;
-        //             case "84001":
-        //                 oTankLevel.addStyleClass("orange");
-        //                 break;
-        //             default:
-        //                 oTankLevel.addStyleClass("inner_level");
-        //                 break;
-        //         }
-        //     }
-        // });
     },
+
+
+  // write code for input validation for volume 
+    onLiveChangeOnVolume: function(oEvent) {
+      var tankDetailsModel = this._oDialog.getModel("tankDetails");
+      var maxCapacity = parseFloat(tankDetailsModel.getProperty("/selectedTank/Kapaz")); 
+      // console.log("max capacity:", maxCapacity); 
+  
+      var input = oEvent.getSource();
+      var value = input.getValue();
+      var numberPattern = /^\d*\.?\d*$/;
+      var isValid = numberPattern.test(value);
     
+      // If the entered value is not a number, display an error message
+      if (!isValid) {
+          input.setValueState("Error");
+          input.setValueStateText("Please enter a valid number");
+      } else {
+          var enteredValue = parseFloat(value);
+          // If the entered value is greater than max, display an error message
+          if (enteredValue > maxCapacity) {
+              input.setValueState("Error");
+              input.setValueStateText("Entered value exceeds maximum capacity");
+          } else {
+              // If the entered value is valid, clear the error state
+              input.setValueState("None");
+              input.setValueStateText("");
+          }
+      }
+  },
+  
 
+    // for validation check when enter the value in input box
+    onLiveChange: function (oEvent) {
+      var input = oEvent.getSource();
+      var value = input.getValue();
+  
+      // Regular expression to match integer or decimal values
+      var numberPattern = /^\d*\.?\d*$/;
+  
+      // Check if the entered value is a number (integer or decimal)
+      var isValid = numberPattern.test(value);
+  
+      // If the entered value is not a number, display an error message
+      if (!isValid) {
+          input.setValueState("Error");
+          input.setValueStateText("Please enter a valid number");
+      } else {
+          // If the entered value is valid, clear the error state
+          input.setValueState("None");
+          input.setValueStateText("");
+      }
+  },  
 
-
-      // Submit dip Code inside fragment
+      // write code for Submit dip for tank inside details fragment
      
       onSubmitPress: function (oEvent) {
         var that = this;
         var CreateDipHeader = this.getView().getModel("formData");
         var tankDetailsModel = this._oDialog.getModel("tankDetails");
         var QuanSku = tankDetailsModel.getProperty("/selectedTank/QuanSku");  
-        var plant = tankDetailsModel.getProperty("/selectedTank/Lgort");  
+        var plant = tankDetailsModel.getProperty("/selectedTank/Werks");  
         var Soc_no = tankDetailsModel.getProperty("/selectedTank/Seqnr");  
         var StorageLoc = tankDetailsModel.getProperty("/selectedTank/Lgort");  
         CreateDipHeader.setProperty("/QuanLvc", QuanSku);
@@ -504,7 +535,6 @@ sap.ui.define(
         CreateDipHeader.setProperty("/StgeLoc", StorageLoc);
         var data = CreateDipHeader.getData();
         var oModel = this.getOwnerComponent().getModel("tanks");
-        
         
         // Check if TestTemp and TestDens fields are empty
         if (!data.TestTemp || !data.TestDens) {
@@ -526,20 +556,19 @@ sap.ui.define(
                       DipDate: data.DipDate,
                       DipTime: data.DipTime,
                       SocEvent: data.SocEvent,
-                      QuanLvc: data.QuanLvc,
+                      QuanLvc: data.TotalheightFltp,
                       TvolUom: "L",
                     }],
                     CreateDipNav02: [{
                       Counter: "003",
-                      TestTemp: data.TestTemp,
+                      TestTemp: data.TestTemp || 0,
                       TestTempUom:"CEL",
                       MatTemp: data.MatTemp,
                       MatTempUom:"CEL",
-                      TestDens: data.TestDens,
+                      TestDens: data.TestDens || 0,
                       TestDensUom:"KGV"
                     }],
                   };
-                  console.log("Payload is " + JSON.stringify(oPayload));
                   oModel.create("/CreateDipSet", oPayload, {
                     success: function () {
                       MessageBox.success("Created successfully");
@@ -584,7 +613,7 @@ sap.ui.define(
               DipDate: data.DipDate,
               DipTime: data.DipTime,
               SocEvent: data.SocEvent,
-              QuanLvc: data.QuanLvc,
+              QuanLvc: data.TotalheightFltp,
               TvolUom: "L",
             }],
             CreateDipNav02: [{
@@ -614,20 +643,26 @@ sap.ui.define(
                 SeqNo: "",
                 QuanLvc:"",
               });
-            },
+              this.getOwnerComponent().getModel("tanks").refresh();
+                        },
             error: function (error) {
-              console.log("Error while creating the data", error);
+              // console.log("Error while creating the data", error.message);
+              MessageBox.error(error.message)
               if (error.response) {
                 console.error("Response: ", error.response);
               }
               console.log("Error while creating the data");
               if (error?.responseText) {
-                let parsedResponseText = JSON.parse(error?.responseText);
-                if (Array.isArray(parsedResponseText?.error?.innererror?.errordetails)) {
-                  let aErrorDetails = parsedResponseText?.error?.innererror?.errordetails;
-                  if (aErrorDetails.length) {
-                    that.handleBapiError(aErrorDetails);
+                try {                  
+                  let parsedResponseText = JSON.parse(error?.responseText);
+                  if (Array.isArray(parsedResponseText?.error?.innererror?.errordetails)) {
+                    let aErrorDetails = parsedResponseText?.error?.innererror?.errordetails;
+                    if (aErrorDetails.length) {
+                      that.handleBapiError(aErrorDetails);
+                    }
                   }
+                } catch (err) {
+                  console.log("Error:", error.message);
                 }
               }
             }
@@ -636,19 +671,26 @@ sap.ui.define(
       },
 
       handleBapiError: function (aError) {
-        let oBapiErrorModel = new JSONModel({
-          error: aError
-        });
+        if (!Array.isArray(aError) || aError.length === 0) return;
+    
+        const errorMessage = aError.map(error => error.message).join("\n");
+        MessageBox.error(errorMessage);
+    },
 
-        //Error Table
-        this._initializeErrorTable(oBapiErrorModel);
+      // handleBapiError: function (aError) {
+      //   let oBapiErrorModel = new JSONModel({
+      //     error: aError
+      //   });
 
-        //Dialog
-        this._initializeErrorDialog();
+      //   //Error Table
+      //   this._initializeErrorTable(oBapiErrorModel);
 
-        //Open Dialog
-        this._oErrorDialog.open();
-      },
+      //   //Dialog
+      //   this._initializeErrorDialog();
+
+      //   //Open Dialog
+      //   this._oErrorDialog.open();
+      // },
 
       _initializeErrorDialog: function () {
         if (this._oErrorDialog) return;
@@ -706,9 +748,15 @@ sap.ui.define(
           })
         })
       },
+      onUpdateDefault:function(){
+        debugger;
+          var oModel = this.getView().getModel("03_default")
+          console.log("update data is",oModel.getData());
+      },
 
       // bind details of a particular tank that is clicked
       onShowInfoPress: function (oEvent) {
+        debugger;
         var oButton = oEvent.getSource();
         var oBindingContext = oButton.getBindingContext("tanks");
         if (oBindingContext) {
@@ -720,9 +768,7 @@ sap.ui.define(
             sort(function (a, b) {
               return parseInt(b.Etmstm) - parseInt(a.Etmstm);
             })[0] || null;
-          // var statusLocSelected = this.systemStatus.find(function(TankStatus){
-          //   return TankStatus.Socnr ===selectedTankSocnr
-          // })
+          
           if (matchingTankData) {
             var combinedData = {
               tankData: matchingTankData,
@@ -746,6 +792,23 @@ sap.ui.define(
         }
       },
 
+     //write code for show all tanks in Table
+     onShowAllTanksTable:function(){
+      this.onOpenTanksTableDialog();
+      },
+
+      onOpenTanksTableDialog:function(){
+        if (!this._oTankTableDialog) {
+          this._oTankTableDialog = sap.ui.xmlfragment("tankreporting.view.TanksTableDialog", this);
+          this.getView().addDependent(this._oTankTableDialog);
+        }
+        this._oTankTableDialog.open();
+      },
+
+      onCloseTankTableDialog: function() {
+        this._oTankTableDialog.close();
+    },
+
 
 
       onSuggest: function (event) {
@@ -760,65 +823,66 @@ sap.ui.define(
       },
 
 
-      // Searching functionality code 
+      // Searching functionality code for UI
       onSearch: function (oEvent) {
         var sTankNumber = oEvent.getParameter("query");
-        if (this._tankData) {
-          var oTank = this._tankData.find(function (tank) {
-            return tank.Seqnr.toLowerCase() === sTankNumber.toLowerCase();
-          });
-
-          if (oTank) {
-            console.log("new tank value is " + JSON.stringify(oTank));
-
-            var selectedTankNo = oTank.Socnr;
-            var selectData = this.masterSetData.find(function(item){
-              return item.Socnr ===selectedTankNo
-            })
-            var tankData = this.stockDipData.find(function (item) {
-              return item.Socnr === selectedTankNo;
-            })
-            //   .
-            //   sort(function (a, b) {
-            //     return parseInt(b.Etmstm) - parseInt(a.Etmstm);
-            // })[0] || null;
-            if (tankData) {
-              var combinedData = {
-                tankData: tankData,
-                selectedTank: selectData,
-                socEvent: this.SocEventSet,
-                status: this.systemStatus,
-                location: this.location
-              };
-              this.openTankDetailsDialog(combinedData,selectData.Matnr);
+    
+        // Check if the search query is not empty or null
+        if (sTankNumber) {
+            if (this._tankData) {
+                var oTank = this._tankData.find(function (tank) {
+                    return tank.Seqnr.toLowerCase() === sTankNumber.toLowerCase();
+                });
+    
+                if (oTank) {
+                    // Existing logic to handle tank data when found
+                    var selectedTankNo = oTank.Socnr;
+                    var selectData = this.masterSetData.find(function(item){
+                        return item.Socnr === selectedTankNo;
+                    });
+                    var tankData = this.stockDipData.find(function (item) {
+                        return item.Socnr === selectedTankNo;
+                    });
+    
+                    if (tankData) {
+                        var combinedData = {
+                            tankData: tankData,
+                            selectedTank: selectData,
+                            socEvent: this.SocEventSet,
+                            status: this.systemStatus,
+                            location: this.location
+                        };
+                        this.openTankDetailsDialog(combinedData, selectData.Matnr);
+                    } else {
+                        var onlyTankData = {
+                            selectedTank: oTank,
+                            socEvent: this.SocEventSet,
+                            status: this.systemStatus,
+                            location: this.location
+                        };
+                        this.openTankDetailsDialog(onlyTankData, null);
+                    }
+                } else {
+                    MessageBox.error(`Tank not found for Seqnr: ${sTankNumber}`);
+                }
             } else {
-              var onlyTankData = {
-                selectedTank: oTank,
-                socEvent: this.SocEventSet,
-                status: this.systemStatus,
-                location: this.location
-              };
-              this.openTankDetailsDialog(onlyTankData,null);
+                MessageBox.error("Tank data is not available. Please try again.");
             }
-          } else {
-            MessageBox.error(`Tank not found for Seqnr:${sTankNumber}`);
-          }
         } else {
-          MessageBox.error("Tank data is not available. Please try again.");
+            // Handle the case when the search query is empty or null
+            // For example, clear suggestions or perform other actions
+            // this.getView().byId("searchField").setSuggestionItems([]);
         }
-        if (!sTankNumber) {
-          this.getView().byId("searchField").setSuggestionItems([]);
-        }
-      },
+    }
+,    
 
        // details dialog fragment code in which bind the details of tank when user clicked on tank 
        openTankDetailsDialog: function (combinedData, matnr) {
-        console.log("dialog box data is:" + JSON.stringify(matnr));
+        // console.log("dialog box data is:" + JSON.stringify(matnr));
         if (!this._oDialog) {
           this._oDialog = sap.ui.xmlfragment("tankreporting.view.DetailsDialog", this);
           this.getView().addDependent(this._oDialog);
         }
-
         var oDialogModel = new sap.ui.model.json.JSONModel();
         oDialogModel.setData(combinedData);
 
@@ -837,13 +901,13 @@ sap.ui.define(
         if (oTankLevel) {
           switch (matnr) {
             case "8000":
-              oTankLevel.addStyleClass("green");
+              oTankLevel.addStyleClass("pms");
               break;
             case "8100":
-              oTankLevel.addStyleClass("red");
+              oTankLevel.addStyleClass("diesel");
               break;
             case "84001":
-              oTankLevel.addStyleClass("orange");
+              oTankLevel.addStyleClass("crude");
               break;
             default:
               oTankLevel.addStyleClass("inner_level");
@@ -875,6 +939,7 @@ sap.ui.define(
         }
       },
 
+     
 
       getSuggestionsFromModel: function (sSearchValue) {
         var aSuggestions = [];
@@ -917,22 +982,54 @@ sap.ui.define(
 
 
       onStatusChange: function (oEvent) {
-        var oSelect = oEvent.getSource();
-        updateStatus = oSelect.getSelectedKey();
-      },
-      onLocationChange: function (oEvent) {
-        var oSelect = oEvent.getSource();
-        updateLocation = oSelect.getSelectedKey();
+        var selectedKey = oEvent.getSource().getSelectedKey();
+        var formDataModel = this.getView().getModel("statusData");
+        formDataModel.setProperty("/status", selectedKey);
       },
 
-      updateStatusAndLoaction: function (oEvent) {
-        if (!updateLocation || !updateStatus) {
-          MessageBox.error("please Select Update and Status")
+
+      // Define the formatter function for showing the actual stock in tank's card
+    formatStockText: function(value) {
+     var floatValue = parseFloat(value);
+       if (!isNaN(floatValue)) {
+          var intValue = Math.floor(floatValue);
+          return intValue.toString();
+        } else {
+           return "";
+      }
+    },
+
+  
+      updateStatus: function (oEvent) {
+        var that = this;
+        var statusDipData = this.getView().getModel("statusData");
+        var tankDetailsModel = this._oDialog.getModel("tankDetails");
+        var socnr = tankDetailsModel.getProperty("/selectedTank/Socnr");  
+        statusDipData.setProperty("/socnr", socnr);
+        var data = statusDipData.getData();
+        var oModel = this.getOwnerComponent().getModel("tanks"); 
+        var statusDataPayload = {
+          Socnr : data.socnr,
+          Zzstatus : data.status
         }
-        else {
-          MessageBox.success("Updated Successfully!!!")
-        }
-      },
+        console.log("update data",statusDataPayload);
+        oModel.create("/System_statusSet",statusDataPayload,{
+         success:function(){
+          MessageBox.success("Update successfully!!")
+          statusDipData.setData({
+            socnr:"",
+            status:""
+          })
+         },
+         error:function(error){
+              console.log("Error while creating the data", error);
+             if (error.response) {
+                    console.error("Response: ", error.response);
+                  }
+                  console.log("Error while creating the data");
+           }
+        })
+    },
 
 
       // status update code
@@ -954,62 +1051,33 @@ sap.ui.define(
         );
       },
 
-      // onDataLoaded: async function () {
-      //   // Wait for Tanks to render (onAfterRendering method not reliable as Data takes time to load before template plots)
-      //   await new Promise(resolve => setTimeout(resolve, 500))
-      //   let aTankLayouts = this.byId("tank_layout")?.getItems();
-      //   if (aTankLayouts?.length > 0) {
-      //     aTankLayouts.forEach(container => {
-      //       let tank_reporting = container?.getItems()
-      //       if (tank_reporting?.length > 0) {
-      //         let tank_level = tank_reporting[0]?.getItems()
-      //         if (tank_level?.length > 0) {
-      //           let material = tank_level[0]?.getBindingContext("tanks")?.getObject()?.Matnr
-      //           switch (material) {
-      //             case "8000":
-      //               tank_level[0].addStyleClass("green")
-      //               break;
-      //             case "8100":
-      //               tank_level[0].addStyleClass("orange")
-      //               break;
-      //             case "84001":
-      //               tank_level[0].addStyleClass("red")
-      //               break;
-      //             default:
-      //               tank_level[0].addStyleClass("inner_level")
-      //               break;
-      //           }
-      //         }
-      //       }
-      //     });
-      //   }
-      // }
+    // calculate the height for creating tank inner level
       formatHeight: function (sAvailableStock, sMaxCapacity) {
         sAvailableStock = parseFloat(sAvailableStock);
         sMaxCapacity = parseFloat(sMaxCapacity);
-
-        // Check if values are valid numbers
         if (isNaN(sAvailableStock) || isNaN(sMaxCapacity)) {
-          console.error("Invalid input values. Expected numeric values.");
-          return '0%';
+            return '0%';
         }
-
-        // Handle division by zero
-        if (sMaxCapacity === 0) {
-          return '0%';
+        if (sMaxCapacity === 0 || sAvailableStock < 0) {
+            return '0%';
         }
-        const pCalculate = (sAvailableStock / sMaxCapacity) * 100;
-        return pCalculate.toString() + '%';
-      },
+        if (sAvailableStock > sMaxCapacity) {
+            sAvailableStock = sMaxCapacity;
+        }
+        const percentage = (sAvailableStock / sMaxCapacity) * 100;
+        const formattedPercentage = Math.max(0, Math.min(100, percentage));
+        return formattedPercentage.toFixed(2) + '%'; 
+    },
+    
 
-
+    // calculate height in percentage to given height of tank
       formattextHeightPercentage: function (sAvailableStock, sMaxCapacity) {
         const pCalculate = (sAvailableStock / sMaxCapacity) * 100;
         return pCalculate.toFixed(1) + '%';
       },
 
+    // find product based on material no and shown on tank card
       formatProductText: function (matnr) {
-        console.log("my matnr is", matnr);
         switch (matnr) {
           case "8000":
             return "PMS";
@@ -1018,7 +1086,7 @@ sap.ui.define(
           case "84001":
             return "CRUDE";
           default:
-            return "Unknown";
+            return "ADD";
         }
       },
       //     onTankHover: function (oEvent) {
@@ -1071,7 +1139,6 @@ sap.ui.define(
                 const maxCapacity = tankLevel.getBindingContext("tanks")?.getObject()?.Kapaz;
                 // console.log("quantity is",quantity,maxCapacity);
                 const pCalculate = availableStock * 100 / maxCapacity
-                console.log(Math.floor(pCalculate));
                 const innerLevel = tankLevel.byId("tank_level");
                 if (innerLevel) {
                   innerLevel.setHeight(`${pCalculate}%`);
@@ -1082,7 +1149,139 @@ sap.ui.define(
         }
       },
 
+
+      // craeting a table of all tanks and showing it inside a fragment
+      handleTableSelectDialogPress: function (oEvent) {
+        var oButton = oEvent.getSource(),
+          oView = this.getView();
+  
+        if (!this._pDialog) {
+          this._pDialog = Fragment.load({
+            id: oView.getId(),
+            name: "tankreporting.view.TanksTableDialog",
+            controller: this
+          }).then(function(oDialog){
+            oView.addDependent(oDialog);
+            return oDialog;
+          });
+        }
+  
+        this._pDialog.then(function(oDialog){
+          this._configDialog(oButton, oDialog);
+          oDialog.open();
+        }.bind(this));
+      },
+  
+      _configDialog: function (oButton, oDialog) {
+        // Set draggable property
+        var bDraggable = oButton.data("draggable");
+        oDialog.setDraggable(bDraggable == "true");
+        // Set resizable property
+        var bResizable = oButton.data("resizable");
+        oDialog.setResizable(bResizable == "true");
+        // Multi-select if required
+        var bMultiSelect = !!oButton.data("multi");
+        oDialog.setMultiSelect(bMultiSelect);
+        // Remember selections if required
+        var bRemember = !!oButton.data("remember");
+        oDialog.setRememberSelections(bRemember);
+        var sResponsivePadding = oButton.data("responsivePadding");
+        var sResponsiveStyleClasses = "sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer";
+        if (sResponsivePadding) {
+          oDialog.addStyleClass(sResponsiveStyleClasses);
+        } else {
+          oDialog.removeStyleClass(sResponsiveStyleClasses);
+        }
+        // Set custom text for the confirmation button
+        var sCustomConfirmButtonText = oButton.data("confirmButtonText");
+        oDialog.setConfirmButtonText(sCustomConfirmButtonText);
+        // toggle compact style
+        syncStyleClass("sapUiSizeCompact", this.getView(), oDialog);
+      },
+    
+      // create code for live search items in a table inside the dialog 
+      handleLiveChange: function (oEvent) {
+        var sQuery = oEvent.getParameter("value");
+        var aFilters = [];
+        if (sQuery) {
+            var oFilter1 = new Filter("Matnr", FilterOperator.Contains, sQuery);
+            var oFilter2 = new Filter("Lgort", FilterOperator.Contains, sQuery);
+            var oFilter3 = new Filter("Seqnr", FilterOperator.Contains, sQuery);
+            
+            aFilters.push(new Filter([oFilter1, oFilter2,oFilter3], false));
+        }
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter(aFilters);
+    },        
+
+    // create code for search functionality when pressed enter
+      handleSearch: function(oEvent) {
+        var sValue = oEvent.getParameter("value");
+        var oFilterLgort = new Filter("Lgort", FilterOperator.Contains, sValue);
+        var oFilterMatnr = new Filter("Matnr", FilterOperator.Contains, sValue);
+        var oFilterSeqnr = new Filter("Seqnr", FilterOperator.Contains, sValue);
+        var oFilter = new Filter({
+          filters: [oFilterLgort, oFilterMatnr,oFilterSeqnr],
+          and: false
+        });
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter(oFilter);
+      },
+
+      // write code for count the total tanks inside the dialog box
+      formatItemCount: function (aItems) {
+        return aItems.length + " items"
+      },
+       
+  // tanks table's close code for dialog box
+      handleClose: function (oEvent) {
+        // reset the filter
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter([]);
+        var aContexts = oEvent.getParameter("selectedContexts");
+      },
+
+      //write code for Handle the row selection change event and showing tank details dialog
+      onSelectRow: function(oEvent) {
+      var oDialog = oEvent.getSource() 
+      var oSelectedItem = oEvent.getParameter("listItem");
+       if (oSelectedItem) {
+        var sSocnr = oSelectedItem.getBindingContext("tanks").getProperty("Socnr");
+        var masterData = this.masterSetData.filter(function(tankSocnr){
+          return tankSocnr.Socnr==sSocnr;
+        })
+        
+        var matchingTankData = this.stockDipData.filter(function (tankItem) {
+          return tankItem.Socnr === sSocnr;
+        }).
+          sort(function (a, b) {
+            return parseInt(b.Etmstm) - parseInt(a.Etmstm);
+          })[0] || null;        }
+          if (matchingTankData) {
+            var combinedData = {
+              tankData: matchingTankData,
+              selectedTank: masterData[0],
+              socEvent: this.SocEventSet,
+              status: this.systemStatus,
+              location: this.location
+            };
+            this.openTankDetailsDialog(combinedData, masterData[0].Matnr);
+          } else {
+            var tankDataOnly = {
+              selectedTank: masterData[0],
+              socEvent: this.SocEventSet,
+              status: this.systemStatus,
+              location: this.location
+            };
+            this.openTankDetailsDialog(tankDataOnly, masterData[0].Matnr);
+          }
+        },
+  
+      
+      // write code for applied class on tanks when tanks are loaded
       onDataLoaded: function () {
+        let that = this;
+        // debugger;
         const tankLayout = this.byId("tank_layout");
         if (tankLayout) {
           tankLayout.getItems().forEach(container => {
@@ -1092,15 +1291,16 @@ sap.ui.define(
               if (tankLevel) {
                 const material = tankLevel.getBindingContext("tanks")?.getObject()?.Matnr;
                 if (material) {
+                  that.resetStyleClass(tankLevel);
                   switch (material) {
                     case "8000":
-                      tankLevel.addStyleClass("green");
+                      tankLevel.addStyleClass("pms");
                       break;
                     case "8100":
-                      tankLevel.addStyleClass("red");
+                      tankLevel.addStyleClass("diesel");
                       break;
                     case "84001":
-                      tankLevel.addStyleClass("orange");
+                      tankLevel.addStyleClass("crude");
                       break;
                     default:
                       tankLevel.addStyleClass("inner_level");
@@ -1110,8 +1310,15 @@ sap.ui.define(
             }
           });
         }
+      },
+      resetStyleClass: function (tankLevel) {
+        if(tankLevel.hasStyleClass('crude')) tankLevel.removeStyleClass('crude')
+        if(tankLevel.hasStyleClass('diesel')) tankLevel.removeStyleClass('diesel')
+        if(tankLevel.hasStyleClass('pms')) tankLevel.removeStyleClass('pms')
       }
 
     });
   }
 );
+
+

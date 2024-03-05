@@ -14,13 +14,14 @@
       </ComboBox> 
     </contentLeft>
     <contentLeft>
-        <Button id="filter_btn" text="Go" press="onFilterGoPressed" type="Ghost"></Button>
-        <Button id="refresh_filter_btn" icon="sap-icon://refresh" press="onFilterRefreshPressed" type="Ghost"></Button>
-    </contentLeft>
+        <Button id="filter_btn" text="Go" press="onFilterGoPressed" type="Emphasized"></Button>
+        <Button id="refresh_filter_btn" icon="sap-icon://home" press="onFilterRefreshPressed" type="Ghost"></Button>
+        <Button id="tableButton" class="" icon="sap-icon://expand-all" press=".handleTableSelectDialogPress" ariaHasPopup="Dialog" type="Emphasized"/>    
+        </contentLeft>
     <contentLeft>
         <HBox id="inventory_text" class="sapUiLargeMarginBegin">
            <Text text="Total inventory : " id="total_inventory" class="header_inventory"/>
-           <Text text="{tanks>/totalQuantity}" id="total_calculated" class="calculated_inventory"/>
+           <Text text="{= ${tanks>/totalQuantity} !== undefined ? ${tanks>/totalQuantity} : '0' }" id="total_calculated" class="calculated_inventory"/>
         </HBox>
     </contentLeft>
     <contentRight>
@@ -57,6 +58,10 @@
         <HBox id="product_txt" class="product_text">
           <Text id="Text1" class=""  text="Quantity:"/>  
           <Text id="Text2" class=""  text="{parts: [{path: 'tanks>ADQNTP'}, {path: 'tanks>Kapaz'}], formatter: '.formattextHeightPercentage'}"/>  
+        </HBox>
+        <HBox id="total_vol" class="product_text">
+          <Text id="Text5" class=""  text="Stock:"/>  
+          <Text id="Text6" class=""  text="{path:'tanks>ADQNTP',formatter:'.formatStockText'}"/>  
         </HBox>
       </VBox>
       </VBox>

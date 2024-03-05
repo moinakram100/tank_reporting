@@ -168,12 +168,49 @@
                 <Property Name="DomvalueL" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Ddtext" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
-            <EntityType Name="ZTank_STATUS" sap:content-version="1">
+            <EntityType Name="OIB_Defaults" sap:content-version="1">
                 <Key>
-                    <PropertyRef Name="DomvalueL"/>
+                    <PropertyRef Name="DefaultGuid"/>
                 </Key>
-                <Property Name="DomvalueL" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Ddtext" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgort" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Charg" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Datum" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Time" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StatusIcon" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Aktid" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="AktID for Defaults" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DefaultGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Timestamp" Type="Edm.String" Nullable="false" MaxLength="14" sap:unicode="false" sap:label="Dip timestamp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="UTrtyp" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Transact. type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="OIB03Nav" Relationship="ZTANK_REPORTING_SRV.OIB03Asso" FromRole="FromRole_OIB03Asso" ToRole="ToRole_OIB03Asso"/>
+                <NavigationProperty Name="OIBIndexNav" Relationship="ZTANK_REPORTING_SRV.OIBIndexAsso" FromRole="FromRole_OIBIndexAsso" ToRole="ToRole_OIBIndexAsso"/>
+            </EntityType>
+            <EntityType Name="OIB_Display" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DefaultGuid"/>
+                </Key>
+                <Property Name="DefaultGuid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParName" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Parameter name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParFltp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Parameter FLTP" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ParChar" Type="Edm.String" Nullable="false" MaxLength="22" sap:unicode="false" sap:label="Par. character" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="UnitChar" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Unit of Measure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Item" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Item number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="OIB03" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                </Key>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgort" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Charg" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Datum" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tdich" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test Density" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tstmp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Test Temp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tsteh" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Test Temp.Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Mttmp" Type="Edm.Double" Nullable="false" sap:unicode="false" sap:label="Mat.Temperature" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mtteh" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Mat.Temp.Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
             </EntityType>
             <EntityType Name="ZMaster_tankType" sap:label="Tank Master" sap:content-version="1">
                 <Key>
@@ -202,20 +239,9 @@
                 <Property Name="Umrsl" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Conversion Group" sap:quickinfo="Conversion Group (Oil, Natural Gas,..)"/>
                 <Property Name="ADQNTP" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="msehi" sap:label="Add.qty.-packed" sap:quickinfo="Additional oil quantity (packed format)"/>
                 <Property Name="msehi" Type="Edm.String" MaxLength="3" sap:label="Internal UoM" sap:quickinfo="Unit of Measurement" sap:semantics="unit-of-measure"/>
+                <Property Name="ParaName" Type="Edm.String" MaxLength="22" sap:display-format="UpperCase" sap:label="Par. character" sap:quickinfo="QCI parameter CHAR string"/>
+                <Property Name="UnitChar" Type="Edm.String" MaxLength="3" sap:label="Display Unit/Measure" sap:quickinfo="Unit of Measure for Display" sap:semantics="unit-of-measure"/>
                 <Property Name="ratio" Type="Edm.Decimal" Precision="8" Scale="2"/>
-            </EntityType>
-            <EntityType Name="ZTank_ActualStockType" sap:label="Actual Stock" sap:content-version="1">
-                <Key>
-                    <PropertyRef Name="Socnr"/>
-                </Key>
-                <Property Name="Socnr" Type="Edm.String" Nullable="false" MaxLength="20" sap:display-format="UpperCase" sap:label="SOC segment no." sap:quickinfo="SOC: Storage object characteristic segment number"/>
-                <Property Name="Timestemp" Type="Edm.String" MaxLength="14" sap:display-format="NonNegative"/>
-                <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
-                <Property Name="Lgort" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Storage Location"/>
-                <Property Name="Seqnr" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sequence no." sap:quickinfo="Sequence number of SO assigned to storage location"/>
-                <Property Name="Totalhight" Type="Edm.String" MaxLength="15"/>
-                <Property Name="QuanSku" Type="Edm.String" MaxLength="15"/>
-                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
             </EntityType>
             <EntityType Name="ZTank_LocValueHelpType" sap:label="Tank Master Value Help for loc" sap:content-version="1">
                 <Key>
@@ -252,6 +278,34 @@
                 <Property Name="Umrsl" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Conversion Group" sap:quickinfo="Conversion Group (Oil, Natural Gas,..)"/>
                 <NavigationProperty Name="to_Process" Relationship="ZTANK_REPORTING_SRV.assoc_1BC60F3E686D4B627BBD70FF579EE57F" FromRole="FromRole_assoc_1BC60F3E686D4B627BBD70FF579EE57F" ToRole="ToRole_assoc_1BC60F3E686D4B627BBD70FF579EE57F"/>
             </EntityType>
+            <EntityType Name="ZTank_O3DEFAULTSType" sap:label="O3DEFAULTS Update and Create" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DefaultGuid"/>
+                    <PropertyRef Name="ParName"/>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Werks"/>
+                    <PropertyRef Name="Lgort"/>
+                    <PropertyRef Name="Charg"/>
+                    <PropertyRef Name="Datum"/>
+                    <PropertyRef Name="Time"/>
+                </Key>
+                <Property Name="DefaultGuid" Type="Edm.Guid" Nullable="false" sap:display-format="UpperCase" sap:label="GUID 16" sap:quickinfo="GUID in 'CHAR' Format in Uppercase"/>
+                <Property Name="ParName" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="QCI Parameter name" sap:quickinfo="Parameter of the Quantity Conversion Interface"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="Lgort" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Storage Location"/>
+                <Property Name="Charg" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch" sap:quickinfo="Batch Number"/>
+                <Property Name="Datum" Type="Edm.DateTime" Nullable="false" Precision="0" sap:display-format="Date" sap:label="Date"/>
+                <Property Name="Time" Type="Edm.Time" Nullable="false" Precision="0" sap:label="Time" sap:quickinfo="System Time"/>
+                <Property Name="ParFltp" Type="Edm.Double" sap:label="QCI parameter FLTP" sap:quickinfo="QCI Parameter FLTP"/>
+                <Property Name="ParChar" Type="Edm.String" MaxLength="22" sap:display-format="UpperCase" sap:label="Par. character" sap:quickinfo="QCI parameter CHAR string"/>
+                <Property Name="UnitChar" Type="Edm.String" MaxLength="3" sap:label="Display Unit/Measure" sap:quickinfo="Unit of Measure for Display" sap:semantics="unit-of-measure"/>
+                <Property Name="CharFlag" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Parameter type CHAR" sap:quickinfo="Flag: Parameter has type CHAR"/>
+                <Property Name="ParLength" Type="Edm.String" MaxLength="2" sap:display-format="NonNegative" sap:label="QCI parameter length" sap:quickinfo="Length of parameter"/>
+                <Property Name="StatusIcon" Type="Edm.String" MaxLength="50" sap:label="Status" sap:quickinfo="Error status"/>
+                <Property Name="Aktid" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="AktID for Defaults" sap:quickinfo="Activation ID for Default Parameter Sets"/>
+                <Property Name="Timestamp" Type="Edm.String" MaxLength="14" sap:display-format="NonNegative" sap:label="Tank dip timestamp" sap:quickinfo="Tank dip time stamp"/>
+            </EntityType>
             <EntityType Name="ZTANK_PRODUCT_GROUPSType" sap:label="Product Group Value help" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="wricef"/>
@@ -273,8 +327,16 @@
                 <Property Name="Wricef" Type="Edm.String" Nullable="false" MaxLength="30" sap:display-format="UpperCase" sap:label="WRICEF NUMBER/ T.COD" sap:quickinfo="WRICEF NUMBER/ T.CODE"/>
                 <Property Name="Param" Type="Edm.String" Nullable="false" MaxLength="30" sap:display-format="UpperCase" sap:label="PARAMETER"/>
                 <Property Name="Source1" Type="Edm.String" Nullable="false" MaxLength="30" sap:display-format="UpperCase" sap:label="SOURCE" sap:quickinfo="INPUT VALUE"/>
-                <Property Name="target1" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="TARGET" sap:quickinfo="OUTPUT VALUE"/>
+                <Property Name="Target1" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="TARGET" sap:quickinfo="OUTPUT VALUE"/>
             </EntityType>
+            <Association Name="OIBIndexAsso" sap:content-version="1">
+                <End Type="ZTANK_REPORTING_SRV.OIB_Defaults" Multiplicity="1" Role="FromRole_OIBIndexAsso"/>
+                <End Type="ZTANK_REPORTING_SRV.OIB_Display" Multiplicity="*" Role="ToRole_OIBIndexAsso"/>
+            </Association>
+            <Association Name="OIB03Asso" sap:content-version="1">
+                <End Type="ZTANK_REPORTING_SRV.OIB_Defaults" Multiplicity="1" Role="FromRole_OIB03Asso"/>
+                <End Type="ZTANK_REPORTING_SRV.OIB03" Multiplicity="*" Role="ToRole_OIB03Asso"/>
+            </Association>
             <Association Name="CreateDipAssociation" sap:content-version="1">
                 <End Type="ZTANK_REPORTING_SRV.CreateDip" Multiplicity="1" Role="FromRole_CreateDipAssociation"/>
                 <End Type="ZTANK_REPORTING_SRV.ITankDipExt" Multiplicity="*" Role="ToRole_CreateDipAssociation"/>
@@ -317,9 +379,9 @@
             </Association>
             <EntityContainer Name="ZTANK_REPORTING_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="ZMaster_tank" EntityType="ZTANK_REPORTING_SRV.ZMaster_tankType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
-                <EntitySet Name="ZTank_ActualStock" EntityType="ZTANK_REPORTING_SRV.ZTank_ActualStockType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZTank_LocValueHelp" EntityType="ZTANK_REPORTING_SRV.ZTank_LocValueHelpType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZTank_Master" EntityType="ZTANK_REPORTING_SRV.ZTank_MasterType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZTank_O3DEFAULTS" EntityType="ZTANK_REPORTING_SRV.ZTank_O3DEFAULTSType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZTANK_PRODUCT_GROUPS" EntityType="ZTANK_REPORTING_SRV.ZTANK_PRODUCT_GROUPSType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZTank_SValueHelp" EntityType="ZTANK_REPORTING_SRV.ZTank_SValueHelpType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="Tank_MasterSet" EntityType="ZTANK_REPORTING_SRV.Tank_Master" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
@@ -332,10 +394,16 @@
                 <EntitySet Name="ITankDipExt001Set" EntityType="ZTANK_REPORTING_SRV.ITankDipExt" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="CreateDipSet" EntityType="ZTANK_REPORTING_SRV.CreateDip" sap:content-version="1"/>
                 <EntitySet Name="Ztank_locSet" EntityType="ZTANK_REPORTING_SRV.Ztank_loc" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
-                <EntitySet Name="ZTank_STATUSSet" EntityType="ZTANK_REPORTING_SRV.ZTank_STATUS" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="OIB_DefaultsSet" EntityType="ZTANK_REPORTING_SRV.OIB_Defaults" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="OIB_DisplaySet" EntityType="ZTANK_REPORTING_SRV.OIB_Display" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="OIB03Set" EntityType="ZTANK_REPORTING_SRV.OIB03" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <AssociationSet Name="assoc_1BC60F3E686D4B627BBD70FF579EE57F" Association="ZTANK_REPORTING_SRV.assoc_1BC60F3E686D4B627BBD70FF579EE57F" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="ZTank_Master" Role="FromRole_assoc_1BC60F3E686D4B627BBD70FF579EE57F"/>
                     <End EntitySet="ZTANK_PRODUCT_GROUPS" Role="ToRole_assoc_1BC60F3E686D4B627BBD70FF579EE57F"/>
+                </AssociationSet>
+                <AssociationSet Name="OIB03AssoSet" Association="ZTANK_REPORTING_SRV.OIB03Asso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="OIB_DefaultsSet" Role="FromRole_OIB03Asso"/>
+                    <End EntitySet="OIB03Set" Role="ToRole_OIB03Asso"/>
                 </AssociationSet>
                 <AssociationSet Name="CreateBapiAssoSet" Association="ZTANK_REPORTING_SRV.CreateBapiAsso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="ITankDipExt001Set" Role="FromRole_CreateBapiAsso"/>
@@ -348,6 +416,10 @@
                 <AssociationSet Name="CreateDipAssociationSet" Association="ZTANK_REPORTING_SRV.CreateDipAssociation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="CreateDipSet" Role="FromRole_CreateDipAssociation"/>
                     <End EntitySet="ITankDipExt001Set" Role="ToRole_CreateDipAssociation"/>
+                </AssociationSet>
+                <AssociationSet Name="OIBIndexAssoSet" Association="ZTANK_REPORTING_SRV.OIBIndexAsso" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="OIB_DefaultsSet" Role="FromRole_OIBIndexAsso"/>
+                    <End EntitySet="OIB_DisplaySet" Role="ToRole_OIBIndexAsso"/>
                 </AssociationSet>
             </EntityContainer>
             <Annotations Target="ZTANK_REPORTING_SRV.ZTANK_REPORTING_SRV_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
