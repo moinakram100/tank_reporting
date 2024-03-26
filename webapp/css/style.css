@@ -1,399 +1,442 @@
 .container {
-    position: relative;
-    width: 131px;
-    height: 145px;
-    padding-top: 50px;
-    margin: 0 auto;
-    /* background: #D3D7D9; */
-    background-color: #B5C0D0;
-    border-radius: 104%/40px;
-    text-align: center;
-    z-index: 1;
-    overflow: hidden;
-  }
-  
-  .inner_level {
-    content: '';
-    position: absolute;
-    bottom: 0; 
-    left: 0;
-    width: 100%;
-    height: 0%;
-    z-index: -1;
-    background: rgba(56, 56, 56, 0.8);
-    border-radius: 100%/0px;
-    /* animation: flowAnimation 2s infinite linear; */
-    animation: fillAnimation 2s forwards;
-  }
-  
-  
-  /* circle at top on container */
-  .container:after {
-    box-sizing: border-box;
-    content: '';
-    position: absolute;
-    top: 0.5px;
-    left: 0;
-    width: 100%;
-    height: 25%;
-    z-index: -1;
-    /* border: 2px solid #abbeca; */
-    /* border: 1px solid #69767c; */
-    border : 1px solid #CCD3CA;
-    filter: brightness(0.5);
-    border-radius: 100%;
-    /* margin-left: 1px; */
-  }
+  position: relative;
+  width: 131px;
+  height: 145px;
+  padding-top: 50px;
+  margin: 0 auto;
+  /* background: #D3D7D9; */
+  background-color: #B5C0D0;
+  border-radius: 104%/40px;
+  text-align: center;
+  z-index: 1;
+  overflow: hidden;
 
-  .sapMITBFilter .sapMITBText {
-    font-weight: bold;
-    width:unset;
 }
 
-  .inner_level::after{
-    content: '';
-    position: absolute;
-    top: -11%;
-    left: 0;
-    width: 100%;
-    height: 20%;
-    background: rgba(128, 128, 128, 0.99);
-    border-radius: 100%;
-  }
-  
-  .tankFlexContainer{
-    display: flex;
-    justify-content: center;
-    margin-top: 3%;
-  }
-  .box{
-    width: 100%;
-    box-sizing: border-box;
-    display:flex;
-    justify-content: space-around;
-    height: 100%;
-  }
- 
-  .text_tank{
-    padding: 10px;
-    width: 98%;
-    height: auto;
-    box-shadow: rgba(200, 195, 195, 0.25) 0px 0.0625em 0.0625em, rgba(200, 195, 195, 0.25) 0px 0.125em 0.5em, rgba(200, 195, 195, 0.25) 0px 0px 0px 1px inset;
-    box-shadow: 2px 2px 2px solid green;
-    display: flex;
-    background-color: rgb(189, 206, 207);
-    justify-content: space-between;
-    align-items:center; 
-    margin-top: 5%;
-    border-radius: 5px;
-    margin-left: 2%;
-  }
-  .qty_text{
-    width:100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  .product_text{
-    width:100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .container_text {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    color: #000;
-  }
-  
-  .show_button .sapMBtnInner{
-    background-color: transparent !important;
-    border-color: transparent !important;
-    border-color: 2px solid rgba(128, 128, 128, 0.99);
-    position: absolute;
-    top: -6px;
-    left: -11px;
-    overflow: visible;
-    margin-top: -47px;
-    padding: 76px;
-    margin-left: -61px;
-    cursor: pointer;
-  }
-
-  @keyframes filAnimation {
-    from {
-      height: 0;
-    }
-    to {
-      height: 100%;
-    }
-  }
-
-.pms {
+.inner_level {
   content: '';
   position: absolute;
   bottom: 0; 
   left: 0;
   width: 100%;
-  height: 0;
+  height: 0%;
   z-index: -1;
+  background: rgba(56, 56, 56, 0.8);
   border-radius: 100%/0px;
   /* animation: flowAnimation 2s infinite linear; */
   animation: fillAnimation 2s forwards;
-  background-color: #007f7e !important; 
-  border: #007f7e;
+}
+
+.ibox{
+  display: flex;
+  justify-content: right;
+  float: right;
+  align-items: start;
+}
+.fbox{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* circle at top on container */
+.container:after {
+  box-sizing: border-box;
+  content: '';
+  position: absolute;
+  top: 0.5px;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  z-index: -1;
+  /* border: 2px solid #abbeca; */
+  /* border: 1px solid #69767c; */
+  border : 1px solid #CCD3CA;
+  filter: brightness(0.5);
+  border-radius: 100%;
+  /* margin-left: 1px; */
+}
+
+.sapMITBFilter .sapMITBText {
+  font-weight: bold;
+  width:unset;
+}
+
+.inner_level::after{
+  content: '';
+  position: absolute;
+  top: -11%;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: rgba(128, 128, 128, 0.99);
+  border-radius: 100%;
+}
+
+.tankFlexContainer{
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+}
+.box{
+  width: 100%;
+  box-sizing: border-box;
+  display:flex;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.text_tank{
+  padding: 10px;
+  width: 100%;
+  height: auto;
+  box-shadow: rgba(200, 195, 195, 0.25) 0px 0.0625em 0.0625em, rgba(200, 195, 195, 0.25) 0px 0.125em 0.5em, rgba(200, 195, 195, 0.25) 0px 0px 0px 1px inset;
+  box-shadow: 2px 2px 2px solid green;
+  display: flex;
+  background-color: rgb(189, 206, 207);
+  justify-content: space-between;
+  align-items:center; 
+  margin-top: 5%;
+  border-radius: 5px;
+  margin-left: 1%;
+}
+.card_text{
+  font-size: 11px;
+  font-weight: bold;
+}
+.qty_text{
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+}
+.product_text{
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container_text {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  color: #000;
+}
+
+.show_button .sapMBtnInner{
+  background-color: transparent !important;
+  border-color: transparent !important;
+  border-color: 2px solid rgba(128, 128, 128, 0.99);
+  position: absolute;
+  top: -6px;
+  left: -11px;
+  overflow: visible;
+  margin-top: -47px;
+  padding: 76px;
+  margin-left: -61px;
+  cursor: pointer;
+}
+
+/* @keyframes filAnimation {
+  from { height: 0%; }
+  to { height: var(--liquid-height); }
+} */
+
+
+
+.pms {
+content: '';
+position: absolute;
+bottom: 0; 
+left: 0;
+width: 100%;
+z-index: -1;
+border-radius: 100%/0px;
+animation: filAnimation 2s forwards;
+background-color: #007f7e !important; 
+border: #007f7e;
 }
 .pms::after{
-  content: '';
-  position: absolute;
-  top: -11%;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  /* background: rgba(128, 128, 128, 0.99); */
-  background: #008a89;
-  border-radius: 100%;
+content: '';
+position: absolute;
+top: -11%;
+left: 0;
+width: 100%;
+height: 20%;
+/* background: rgba(128, 128, 128, 0.99); */
+background: #008a89;
+border-radius: 100%;
 }
 .diesel {
-  content: '';
-  position: absolute;
-  bottom: 0; 
-  left: 0;
-  width: 100%;
-  height: 0%;
-  z-index: -1;
-  border-radius: 100%/0px;
-  animation: fillAnimation 2s forwards;
-    background: #b38e40;
-    border: #007f7e;
+content: '';
+position: absolute;
+bottom: 0; 
+left: 0;
+width: 100%;
+height: 0%;
+z-index: -1;
+border-radius: 100%/0px;
+animation: fillAnimation 2s forwards;
+  background: #b38e40;
+  border: #007f7e;
 }
 .diesel::after{
-  content: '';
-  position: absolute;
-  top: -11%;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  background: #c09844;
-  border-radius: 100%;
+content: '';
+position: absolute;
+top: -11%;
+left: 0;
+width: 100%;
+height: 20%;
+background: #c09844;
+border-radius: 100%;
 }
 .crude{
-  content: '';
-  position: absolute;
-  bottom: 0; 
-  left: 0;
-  width: 100%;
-  height: 0%;
-  z-index: -1;
-  border-radius: 100%/0px;
-  animation: fillAnimation 2s forwards;
-  /* background: rgba(128, 128, 128, 0.99); */
-    background: #12596f;
+content: '';
+position: absolute;
+bottom: 0; 
+left: 0;
+width: 100%;
+height: 0%;
+z-index: -1;
+border-radius: 100%/0px;
+/* animation: fillAnimation 2s forwards; */
+  background: #12596f;
 }
 .crude::after{
-  content: '';
-  position: absolute;
-  top: -11%;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  background: #2d6476;
-  border-radius: 100%;
+content: '';
+position: absolute;
+top: -11%;
+left: 0;
+width: 100%;
+height: 20%;
+background: #2d6476;
+border-radius: 100%;
 }
+
+
+
 defaults{
-  background-color: gray;
+background-color: gray;
 }
-  /* click button on tank */
-  .show_button:active{
-    border: transparent !important;
-  }
-  
-  /* margin between tanks */
-  .tank_box{
-    margin: 10px;
-  }
-  
-  .tankFlex{
-    overflow-y: scroll;
-  }
-  .header_inventory{
-    font-size: 15px !important;
-    font-weight: bold;
-    color:rgb(206, 202, 202);
-    font-style: italic;
-    margin-right: 6px !important;
-  }
-  .calculated_inventory{
-    font-weight: bold;
-    color:rgb(116, 105, 105);
-  }
-  
-  .tank_no{
-    display: flex;
-    justify-content: center;
-    font-size: 25px;
-    color: white;
-    font-weight: bold;
-  }
-  .stock_text{
-    display: flex;
-    justify-content: center;
-    font-size: 18px;
-    margin-top: 3px;
-    color: white;
-  }
-  .dialog_text{
-    margin-left: 20px;
-    margin-top: 7px;
-  }
-  .close_btn{
-    margin-left: 30px !important;
-  }
-  .close_btn .sapMBtnContent{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: -3px;
-  }
-  .link_text{
-    margin-top: 2px;
-    margin-left: 2px;
-  }
-  
-  .dropbox_box{
-    margin-left: 15px;
-  }
-  .content_left{
-    margin: 20px;
-  }
-  .edit_icon{
-    color: blue;
-    margin: 7px 0 0 2px;
-    cursor: pointer;
-  }
-  .edit_icon:focus{
-    padding: 2px;
-    border-color:#000  !important;
-  }
-  
-  /* tank text */
-  .Tank_text{
-    font-size: 16px;
-    color : #000 !important;
-    margin-top: -76px;
-  }
-  .tank_text2{
-    cursor: pointer;
-    width: 100%;
-    text-shadow: 2px 2px 4px #000 !important;
-    color: whitesmoke !important;
-  }
-  .tank_text2:hover{
-    text-decoration: none !important;
-    color: whitesmoke !important;
-    border: none !important;
-    font-weight: bold;
-  }
-  .tank_text2:focus{
-    background-color: transparent !important;
-    text-decoration: none !important;
-  }
-  .Tank_text:hover{
-    text-decoration: none !important;
-  }
-  .Tank_text:focus{
-    background-color: transparent !important;
-    text-decoration: none !important;
-  }
-  
-  .details_tab{
-    height: 300px;
-  }
-  .details_tab_height{
-    height: 22vh;
-  }
-  .details_close_btn{
-    float: right;
-    padding: 2px;
-    margin-right: 10px;
-  }
- 
-  .details_container{
-     width:175px;
-     height:200px;
-  }
-  .details_container::after{
-    box-sizing: border-box;
-    margin-top: -2px;
-    width:101.5%;
-    border: 3px solid #CCD3CA;
-    margin-left: -1px;
-  }
-
-  @keyframes filAnimation {
-    from { height: 0%; }
-    to { height: 50%; }
+/* click button on tank */
+.show_button:active{
+  border: transparent !important;
 }
-  
-   .bar1 .sapUiSizeCompact .sapMBar{
-    height: 3rem !important;
-   }
-  
-  .tank_no{
-    font-size: 16px;
-  }
-  .dialog_tet{
-    color:white;
-    font-size: 16px;
-    margin-top: 18%;
-    font-weight: bold;
-  }
-  .Dip_form{
-    display: flex;
-    justify-content: center;
-  }
-  .dialog_text{
-    margin-left: 20px;
-    margin-top: 7px;
-  }
-  .details_text{
-    margin-left: 5px;
-  }
-  .messageStrip{
-    width: 98%;
-    margin-top: 1%;
-    margin-left: 10px;
-    text-align: center;
-  }
-  .update_button{
-     margin-left: 20px !important;
-     margin-top: 10px;
-  }
 
-  /* Custom styles for tooltips */
+/* margin between tanks */
+.tank_box{
+  margin: 10px;
+}
+
+.tankFlex{
+  overflow-y: scroll;
+}
+.header_inventory{
+  font-size: 15px !important;
+  font-weight: bold;
+  color:rgb(206, 202, 202);
+  font-style: italic;
+  margin-right: 6px !important;
+}
+.calculated_inventory{
+  font-weight: bold;
+  color:rgb(116, 105, 105);
+}
+
+.tank_no{
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  color: white;
+  font-weight: bold;
+}
+.tank_no2{
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  color: white;
+  font-weight: bold;
+}
+.stock_text{
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  margin-top: 3px;
+  color: white;
+}
+.dialog_text{
+  margin-left: 20px;
+  margin-top: 7px;
+}
+.close_btn{
+  margin-left: 30px !important;
+}
+.close_btn .sapMBtnContent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -3px;
+}
+.link_text{
+  margin-top: 2px;
+  margin-left: 2px;
+}
+
+.dropbox_box{
+  margin-left: 15px;
+}
+.content_left{
+  margin: 20px;
+}
+.edit_icon{
+  color: blue;
+  margin: 7px 0 0 2px;
+  cursor: pointer;
+}
+.edit_icon:focus{
+  padding: 2px;
+  border-color:#000  !important;
+}
+
+/* tank text */
+.Tank_text{
+  font-size: 16px;
+  color : #000 !important;
+  margin-top: -76px;
+}
+.Tank_text2{
+  font-size: 14px;
+  color : #000 !important;
+  margin-top: -36px;
+}
+
+.tank_text2{
+  cursor: pointer;
+  width: 100%;
+  text-shadow: 2px 2px 4px #000 !important;
+  color: whitesmoke !important;
+}
+.tank_text2:hover{
+  text-decoration: none !important;
+  color: whitesmoke !important;
+  border: none !important;
+  font-weight: bold;
+}
+.tank_text2:focus{
+  background-color: transparent !important;
+  text-decoration: none !important;
+}
+.Tank_text:hover{
+  text-decoration: none !important;
+}
+.Tank_text:focus{
+  background-color: transparent !important;
+  text-decoration: none !important;
+}
+
+.details_tab{
+  height: 300px;
+}
+.details_tab_height{
+  height: 22vh;
+}
+.details_close_btn{
+  float: right;
+  padding: 2px;
+  margin-right: 10px;
+}
+
+.details_container{
+   width:175px;
+   height:200px;
+}
+.details_container::after{
+  box-sizing: border-box;
+  margin-top: -2px;
+  width:101.5%;
+  border: 3px solid #CCD3CA;
+  margin-left: -1px;
+}
+
+ .bar1 .sapUiSizeCompact .sapMBar{
+  height: 3rem !important;
+ }
+ .sText{
+  margin-top: -30px;
+  font-size: 14px!important;
+ }
+
+.tank_no{
+  font-size: 16px;
+}
+.dialog_text{
+  color:black;
+  font-size: 16px;
+  margin-top: 18%;
+  margin-left: -5px;
+  font-weight: bold;
+}
+.Dip_form{
+  display: flex;
+  justify-content: center;
+}
+.dialog_text{
+  margin-left: 10px;
+  margin-top: 7px;
+}
+.details_text{
+  margin-left: 5px;
+}
+.messageStrip{
+  width: 98%;
+  margin-top: 1%;
+  margin-left: 10px;
+  text-align: center;
+}
+.update_button{
+   margin-left: 20px !important;
+   margin-top: 10px;
+}
+
+/* Custom styles for tooltips */
 /* Custom styles for tooltips */
 .sapMTooltip {
-  background-color: #333;
-  color: #fff;
-  font-size: 14px;
-  border: 1px solid #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 8px 12px;
-  border-radius: 4px;
+background-color: #333;
+color: #fff;
+font-size: 14px;
+border: 1px solid #fff;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+padding: 8px 12px;
+border-radius: 4px;
 }
 
 /* Custom styles for tooltip arrow */
 .sapMTooltip::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent #333 transparent;
+content: "";
+position: absolute;
+bottom: 100%;
+left: 50%;
+margin-left: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: transparent transparent #333 transparent;
 }
 
 
+/* .tankFilter .sapUiIcon::before{
+display: none;
+}
+.tankFilter .sapUiSizeCompact .sapMInputBase:not(.sapMInputBaseReadonly) .sapMInputBaseIconContainer .sapMInputBaseIcon {
+background-image: url("../image/search.png");
+background-size: 16px;
+background-repeat: no-repeat;
+background-position: center;
+} */
 
+.whiteText {
+  color: white !important;
+}
+
+.blackText {
+  color: black !important;
+}
